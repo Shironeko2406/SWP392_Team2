@@ -52,6 +52,14 @@ const ModalCreatePost = () => {
                   />
                 </div>
                 <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="postId">Subject</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="postId"                  
+                  />
+                </div>
+                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
                   <label htmlFor="description">Description</label>
                   <input
                     type="text"
@@ -69,6 +77,38 @@ const ModalCreatePost = () => {
                 </div>
                 <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
                   <label htmlFor="schedule">Schedule</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="schedule"         
+                  />
+                </div>
+                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="schedule">Degree</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="schedule"         
+                  />
+                </div>
+                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="schedule">Start Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="schedule"         
+                  />
+                </div>
+                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="schedule">End Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="schedule"         
+                  />
+                </div>
+                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="schedule">Time</label>
                   <input
                     type="text"
                     className="form-control"

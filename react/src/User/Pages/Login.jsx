@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Checkbox, Form, Grid, Input, theme, Typography } from "antd";
 
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import {NavLink } from "react-router-dom";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginActionAsync } from "../../Redux/Reducer/UserReducer";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -11,9 +13,14 @@ const { Text, Title, Link } = Typography;
 const Login = () => {
   const { token } = useToken();
   const screens = useBreakpoint();
+  const dispatch = useDispatch();
+  const { tokenUser } = useSelector((state) => state.UserReducer);
+  console.log(tokenUser);
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    const actionAsync = LoginActionAsync(values);
+    dispatch(actionAsync);
   };
 
   const styles = {
@@ -92,16 +99,15 @@ const Login = () => {
           requiredMark="optional"
         >
           <Form.Item
-            name="email"
+            name="username"
             rules={[
               {
-                type: "email",
                 required: true,
-                message: "Please input your Email!",
+                message: "Please input your Username!",
               },
             ]}
           >
-            <Input prefix={<MailOutlined />} placeholder="Email" />
+            <Input prefix={<UserOutlined />} placeholder="Username" />
           </Form.Item>
           <Form.Item
             name="password"
@@ -119,9 +125,9 @@ const Login = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
+            {/* <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+            </Form.Item> */}
             <a style={styles.forgotPassword} href="">
               Forgot password?
             </a>
