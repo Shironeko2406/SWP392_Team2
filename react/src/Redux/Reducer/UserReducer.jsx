@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { TOKEN_AUTHOR, setDataTextStorage } from "../../Utils/UtilFuction";
 
 const initialState = {
   tokenUser: [],
@@ -25,6 +26,7 @@ export const LoginActionAsync = (dataUser) => {
       const res = await axios.post('https://tutorlinkproject.azurewebsites.net/api/Auth/login', dataUser)
       console.log(res.data.data.accessTokenToken)
 
+      setDataTextStorage(TOKEN_AUTHOR, res.data.data.accessTokenToken);
       const action = getTokenAction(res.data.data.accessTokenToken)
       dispatch(action)
     } catch (error) {
