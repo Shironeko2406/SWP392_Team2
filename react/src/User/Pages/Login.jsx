@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { Button, Checkbox, Form, Grid, Input, theme, Typography } from "antd";
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginActionAsync } from "../../Redux/Reducer/UserReducer";
+import { getDataTextStorage, TOKEN_AUTHOR } from "../../Utils/UtilFuction";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -14,6 +15,7 @@ const Login = () => {
   const { token } = useToken();
   const screens = useBreakpoint();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { tokenUser } = useSelector((state) => state.UserReducer);
   console.log(tokenUser);
 
@@ -22,6 +24,14 @@ const Login = () => {
     const actionAsync = LoginActionAsync(values);
     dispatch(actionAsync);
   };
+
+  useEffect(() => {
+    if (getDataTextStorage(TOKEN_AUTHOR)) {
+      navigate("/home");
+    }
+  }, [[tokenUser]]);
+
+
 
   const styles = {
     container: {
