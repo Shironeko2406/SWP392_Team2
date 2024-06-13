@@ -17,11 +17,15 @@ const getDataJSONStorage = (storeName) => {
 };
 
 const setDataTextStorage = (storeName, data) => {
-  localStorage.getItem(storeName, data);
+  localStorage.setItem(storeName, data);
 };
 
 const setDataJSONStorage = (storeName, data) => {
-  localStorage.getItem(storeName, JSON.stringify(data));
+  localStorage.setItem(storeName, JSON.stringify(data));
+};
+
+const removeDataTextStorage = (storeName) => {
+  localStorage.removeItem(storeName);
 };
 
 function setCookie(name, value, days) {
@@ -52,6 +56,7 @@ export {
   getDataJSONStorage,
   setDataTextStorage,
   setDataJSONStorage,
+  removeDataTextStorage,
   setCookie,
   getCookie,
   deleteCookie,

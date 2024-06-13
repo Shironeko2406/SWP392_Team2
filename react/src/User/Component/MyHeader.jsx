@@ -48,12 +48,12 @@ const MyHeader = () => {
           </ul>
         </div>
 
-        <Flex wrap gap="small">
+        {/* <Flex wrap gap="small">
           <Button type="primary" danger>
             Login
           </Button>
           <Button danger>Sign in</Button>
-        </Flex>
+        </Flex> */}
       </div>
     </nav>
   );
