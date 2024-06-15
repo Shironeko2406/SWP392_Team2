@@ -1,8 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TOKEN_AUTHOR, setDataTextStorage } from "../../Utils/UtilFuction";
+import { jwtDecode } from "jwt-decode";
+import {
+  TOKEN_AUTHOR,
+  USER_LOGIN,
+  getDataJSONStorage,
+  getDataTextStorage,
+  setDataJSONStorage,
+  setDataTextStorage,
+} from "../../Utils/UtilFuction";
 
 const initialState = {
-  tokenUser: [],
+  tokenUser: getDataTextStorage(TOKEN_AUTHOR),
+  userLogin: getDataJSONStorage(USER_LOGIN),
 };
 
 const UserReducer = createSlice({
@@ -10,28 +19,56 @@ const UserReducer = createSlice({
   initialState,
   reducers: {
     getTokenAction: (state, action) => {
-      state.tokenUser = action.payload
+      state.tokenUser = action.payload;
+    },
+    getUserLoginAction: (state, action) => {
+      state.userLogin = action.payload;
     },
   },
 });
 
-export const {getTokenAction} = UserReducer.actions;
+export const { getTokenAction, getUserLoginAction } = UserReducer.actions;
 
 export default UserReducer.reducer;
 
 //-----------API Call-------------
+// export const LoginActionAsync = (dataUser) => {
+//   return async (dispatch) => {
+//     try {
+//       const res = await axios.post('https://tutorlinkproject.azurewebsites.net/api/Auth/login', dataUser)
+//       console.log(res.data.data.accessTokenToken)
+
+//       setDataTextStorage(TOKEN_AUTHOR, res.data.data.accessTokenToken);
+//       const action = getTokenAction(res.data.data.accessTokenToken)
+
+//       dispatch(action)
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   };
+// };
+
 export const LoginActionAsync = (dataUser) => {
   return async (dispatch) => {
     try {
-      const res = await axios.post('https://tutorlinkproject.azurewebsites.net/api/Auth/login', dataUser)
-      console.log(res.data.data.accessTokenToken)
+      const res = await axios.post(
+        "https://tutorlinkproject.azurewebsites.net/api/Auth/login",
+        dataUser
+      );
+      console.log(res.data.data.accessTokenToken);
+
+      const token = res.data.data.accessTokenToken;
+      setDataTextStorage(TOKEN_AUTHOR, token);
+      const user = jwtDecode(token);
+      setDataTextStorage(USER_LOGIN, JSON.stringify(user));
+
+      const action1 = getTokenAction(token);
+      const action2 = getUserLoginAction(user);
+      dispatch(action1);
+      dispatch(action2);
       
-      setDataTextStorage(TOKEN_AUTHOR, res.data.data.accessTokenToken);
-      const action = getTokenAction(res.data.data.accessTokenToken)
-      
-      dispatch(action)
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 };

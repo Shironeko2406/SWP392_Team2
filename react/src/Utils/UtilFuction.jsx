@@ -1,4 +1,5 @@
 const TOKEN_AUTHOR = "accessToken";
+const USER_LOGIN = "userLogin";
 
 //  Cookie and local storage interaction functions
 
@@ -61,4 +62,5 @@ export {
   getCookie,
   deleteCookie,
   TOKEN_AUTHOR,
+  USER_LOGIN,
 };
