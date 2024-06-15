@@ -11,6 +11,7 @@ import { Menu } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import {
   TOKEN_AUTHOR,
+  USER_LOGIN,
   getDataTextStorage,
   removeDataTextStorage,
   setDataTextStorage,
@@ -94,6 +95,7 @@ const Home = () => {
       // Handle logout logic
       console.log("Logging out...");
       removeDataTextStorage(TOKEN_AUTHOR)
+      removeDataTextStorage(USER_LOGIN)
       navigate("/"); // Redirect to the user page (or login page)
       return;
     }

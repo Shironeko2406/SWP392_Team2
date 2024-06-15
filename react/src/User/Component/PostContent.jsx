@@ -9,6 +9,7 @@ import {
 import { Avatar, Badge, Layout, Typography } from "antd";
 import ModalEditPost from "./Modal/ModalEditPost";
 import ModalCreatePost from "./Modal/ModalCreatePost";
+import { useSelector } from "react-redux";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -41,6 +42,9 @@ const posts = [
 ];
 
 const PostContent = () => {
+  const { tokenUser } = useSelector((state) => state.UserReducer);
+  console.log(tokenUser);
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Layout>
