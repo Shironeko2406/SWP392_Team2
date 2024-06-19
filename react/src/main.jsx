@@ -10,10 +10,11 @@ import UserDetail from "./User/Pages/UserDetail.jsx";
 import AppointmentSchedule from "./User/Pages/AppoimentSchedule.jsx";
 import AdminHome from "./Admin/Pages/AdminHome.jsx";
 import HomeDashBoard from "./Admin/Pages/HomeDashBoard.jsx";
-import UserTable from "./Admin/Pages/UserTable.jsx";
-import RegisterTutor from "./User/Pages/RegisterTutor.jsx";
+import UserTable from "./Admin/Pages/UserTable.jsx";  
 import { Provider } from "react-redux";
 import { store } from "./Redux/Store.jsx";
+import FormTestKhac from "./User/Pages/FormTestKhac.jsx";
+import RegisterTutor from "./Tutor/Pages/RegisterTutor.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -25,7 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       </Route> */}
         <Route path="" element={<Login></Login>} />
         <Route path="register" element={<Register />} />
-        <Route path="registertutor" element={<RegisterTutor />} />
+        <Route path="register-tutor" element={<RegisterTutor />} />
         <Route path="home" element={<Home></Home>}>
           <Route path="" element={<PostContent></PostContent>}></Route>
           <Route path="user-detail" element={<UserDetail></UserDetail>}></Route>
@@ -38,6 +39,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="" element={<HomeDashBoard></HomeDashBoard>}></Route>
           <Route path="user-table" element={<UserTable></UserTable>}></Route>
         </Route>
+        <Route path="testForm" element={<FormTestKhac></FormTestKhac>} />
+
       </Routes>
     </Provider>
   </BrowserRouter>

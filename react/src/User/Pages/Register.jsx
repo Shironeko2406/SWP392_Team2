@@ -1,6 +1,16 @@
 import React from "react";
 import { Button, Form, Grid, Input, Select, theme, Typography } from "antd";
-import { LockOutlined, MailOutlined, UserOutlined, HomeOutlined } from "@ant-design/icons";
+import {
+  LockOutlined,
+  MailOutlined,
+  UserOutlined,
+  HomeOutlined,
+  IdcardOutlined,
+  PhoneOutlined,
+} from "@ant-design/icons";
+import { RegisterUserActionAsync } from "../../Redux/Reducer/UserReducer";
+import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -10,9 +20,20 @@ const { Option } = Select;
 const Register = () => {
   const { token } = useToken();
   const screens = useBreakpoint();
+  const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    const formUserRegister = {
+      username: values.username,
+      password: values.password,
+      fullname: values.fullname,
+      email: values.email,
+      phone: values.phone,
+      address: values.address,
+      gender: parseInt(values.gender),
+    };
+    const actionAsync = RegisterUserActionAsync(formUserRegister);
+    dispatch(actionAsync);
   };
 
   const styles = {
@@ -70,7 +91,7 @@ const Register = () => {
             <path d="M4.92505 17.6H14.525V27.2001H4.92505V17.6Z" fill="white" />
           </svg>
 
-          <Title style={styles.title}>Sign up</Title>
+          <Title style={styles.title}>Sign up tutor</Title>
           <Text style={styles.text}>
             Join us! Create an account to get started.
           </Text>
@@ -82,15 +103,41 @@ const Register = () => {
           requiredMark="optional"
         >
           <Form.Item
-            name="name"
+            name="tutorId"
             rules={[
               {
-                required: true,
-                message: "Please input your Name!",
+                required: false,
+                message: "Please input your Tutor ID!",
               },
             ]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Name" />
+            <Input
+              prefix={<IdcardOutlined />}
+              placeholder="Tutor ID is auto random"
+              disabled={true}
+            />
+          </Form.Item>
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Username!",
+              },
+            ]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="fullname"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Full Name!",
+              },
+            ]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Full Name" />
           </Form.Item>
           <Form.Item
             name="email"
@@ -121,6 +168,17 @@ const Register = () => {
             />
           </Form.Item>
           <Form.Item
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Phone Number!",
+              },
+            ]}
+          >
+            <Input prefix={<PhoneOutlined />} placeholder="Phone Number" />
+          </Form.Item>
+          <Form.Item
             name="address"
             rules={[
               {
@@ -143,7 +201,7 @@ const Register = () => {
             <Select placeholder="Select Gender">
               <Option value="1">Male</Option>
               <Option value="2">Female</Option>
-              <Option value="other">Other</Option>
+              <Option value="3">Other</Option>
             </Select>
           </Form.Item>
           <Form.Item style={{ marginBottom: "0px" }}>
@@ -152,7 +210,7 @@ const Register = () => {
             </Button>
             <div style={styles.signup}>
               <Text style={styles.text}>Already have an account?</Text>{" "}
-              <Link href="">Sign in</Link>
+              <NavLink to="/">Sign in</NavLink>
             </div>
           </Form.Item>
         </Form>

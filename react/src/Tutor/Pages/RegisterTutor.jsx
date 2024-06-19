@@ -17,6 +17,10 @@ import {
   IdcardOutlined,
   PhoneOutlined,
 } from "@ant-design/icons";
+import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { RegisterTuTorActionAsync } from "../../Redux/Reducer/TutorReducer";
+
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -26,38 +30,25 @@ const { Option } = Select;
 const RegisterTutor = () => {
   const { token } = useToken();
   const screens = useBreakpoint();
+  const dispatch = useDispatch();
 
   //   const onFinish = (values) => {
   //     console.log("Received values of form: ", values);
   //   };
 
-  const onFinish = async (values) => {
-    try {
-      const response = await axios.post(
-        "https://tutorlinkproject.azurewebsites.net/Tutor/AddNewTutor",
-        {
-          username: values.username,
-          password: values.password,
-          fullname: values.fullname,
-          email: values.email,
-          phone: values.phone,
-          address: values.address,
-          gender: parseInt(values.gender),
-          roleId: parseInt(values.roleId), // Assuming roleId is fixed to 0 as per the provided data
-        },
-        {
-          headers: {
-            "content-Type": "application/json",
-          },
-        }
-      );
-      message.success("Tutor created successfully!");
-      console.log("Received values of form: ", response.data);
-      console.log(response.status)
-    } catch (error) {
-      message.error("Failed to create tutor");
-      console.error("Error creating tutor: ", error);
-    }
+  const onFinish = (values) => {
+    const formTutorRegister = {
+      username: values.username,
+      password: values.password,
+      fullname: values.fullname,
+      email: values.email,
+      phone: values.phone,
+      address: values.address,
+      gender: parseInt(values.gender),
+      roleId: parseInt(values.roleId), // Assuming roleId is fixed to 0 as per the provided data
+    };
+    const actionAsync = RegisterTuTorActionAsync(formTutorRegister);
+    dispatch(actionAsync);
   };
 
   const styles = {
@@ -135,7 +126,11 @@ const RegisterTutor = () => {
               },
             ]}
           >
-            <Input prefix={<IdcardOutlined />} placeholder="Tutor ID is auto random" disabled={true}/>
+            <Input
+              prefix={<IdcardOutlined />}
+              placeholder="Tutor ID is auto random"
+              disabled={true}
+            />
           </Form.Item>
           <Form.Item
             name="username"
@@ -241,7 +236,7 @@ const RegisterTutor = () => {
             </Button>
             <div style={styles.signup}>
               <Text style={styles.text}>Already have an account?</Text>{" "}
-              <Link href="">Sign in</Link>
+              <NavLink to="/">Sign in</NavLink>
             </div>
           </Form.Item>
         </Form>

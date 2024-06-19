@@ -15,7 +15,7 @@ const Login = () => {
   const { token } = useToken();
   const screens = useBreakpoint();
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { tokenUser } = useSelector((state) => state.UserReducer);
   console.log(tokenUser);
 
@@ -30,8 +30,6 @@ const Login = () => {
       navigate("/home");
     }
   }, [[tokenUser]]);
-
-
 
   const styles = {
     container: {
@@ -147,8 +145,14 @@ const Login = () => {
               Log in
             </Button>
             <div style={styles.footer}>
-              <Text style={styles.text}>Don't have an account?</Text>{" "}
-              <NavLink to="/register">Sign up now</NavLink>
+              <div className="mb-3">
+                <Text style={styles.text}>Don't have an account?</Text>{" "}
+                <NavLink to="/register">Sign up now</NavLink>
+              </div>
+              <div>
+                <Text style={styles.text}>Register with by tutor!</Text>{" "}
+                <NavLink to="/register-tutor">Sign up now</NavLink>
+              </div>
             </div>
           </Form.Item>
         </Form>

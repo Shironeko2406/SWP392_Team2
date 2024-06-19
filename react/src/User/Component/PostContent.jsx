@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../index.css";
 import {
   MailOutlined,
@@ -9,41 +9,51 @@ import {
 import { Avatar, Badge, Layout, Typography } from "antd";
 import ModalEditPost from "./Modal/ModalEditPost";
 import ModalCreatePost from "./Modal/ModalCreatePost";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GetPostListUserLoginActionAsync } from "../../Redux/Reducer/PostRequestReducer";
+
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
-const posts = [
-  {
-    userAvatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl-NviIBQL9BxKSmvGrdvpeKTMsiwnuHA24A&s",
-    userName: "John Doe",
-    postedTime: "2 hours ago",
-    content: "This is a sample post content with an image.",
-    image: "https://via.placeholder.com/600x400",
-  },
-  {
-    userAvatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPa4v71EAqh6TvoLPHeO2T92QpHr44h2jmHA&s",
-    userName: "Jane Smith",
-    postedTime: "3 hours ago",
-    content: "Another post without an image.",
-    image: null,
-  },
-  {
-    userAvatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1_NUx_3Q5UK_XadfRgMqo_7X4dILRtBCSQ&s",
-    userName: "Alice Johnson",
-    postedTime: "1 hour ago",
-    content: "This is yet another sample post content with an image.",
-    image: "https://via.placeholder.com/600x400",
-  },
-];
+// const posts = [
+//   {
+//     userAvatar:
+//       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl-NviIBQL9BxKSmvGrdvpeKTMsiwnuHA24A&s",
+//     userName: "John Doe",
+//     postedTime: "2 hours ago",
+//     content: "This is a sample post content with an image.",
+//     image: "https://via.placeholder.com/600x400",
+//   },
+//   {
+//     userAvatar:
+//       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPa4v71EAqh6TvoLPHeO2T92QpHr44h2jmHA&s",
+//     userName: "Jane Smith",
+//     postedTime: "3 hours ago",
+//     content: "Another post without an image.",
+//     image: null,
+//   },
+//   {
+//     userAvatar:
+//       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1_NUx_3Q5UK_XadfRgMqo_7X4dILRtBCSQ&s",
+//     userName: "Alice Johnson",
+//     postedTime: "1 hour ago",
+//     content: "This is yet another sample post content with an image.",
+//     image: "https://via.placeholder.com/600x400",
+//   },
+// ];
 
 const PostContent = () => {
   const { tokenUser } = useSelector((state) => state.UserReducer);
   console.log(tokenUser);
+  const {postListUserLogin} = useSelector((state)=>state.PostRequestReducer)
+  console.log(postListUserLogin)
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const actionAsync = GetPostListUserLoginActionAsync();
+    dispatch(actionAsync)
+  }, []);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -70,24 +80,24 @@ const PostContent = () => {
         </Header>
         <Content style={{ margin: "16px" }}>
           <div className="container mt-3">
-            {posts.map((post, index) => (
-              <div key={index} className="card mb-3">
+            {postListUserLogin.map((post) => (
+              <div key={post.postId} className="card mb-3">
                 <div className="card-header d-flex align-items-center">
                   <img
-                    src={post.userAvatar}
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1_NUx_3Q5UK_XadfRgMqo_7X4dILRtBCSQ&s"
                     alt="User Avatar"
                     className="rounded-circle me-2"
                     style={{ width: "40px", height: "40px" }}
                   />
                   <div>
-                    <strong>{post.userName}</strong>
+                    <strong>Nahida</strong>
                     <div className="text-muted" style={{ fontSize: "12px" }}>
-                      {post.postedTime}
+                      {post.createdDate}
                     </div>
                   </div>
                 </div>
                 <div className="card-body">
-                  <p className="card-text">{post.content}</p>
+                  <p className="card-text">{post.description}</p>
                   {/* {post.image && (
                     <img src={post.image} alt="Post" className="card-img-top mt-2" />
                   )} */}
