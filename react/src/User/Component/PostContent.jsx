@@ -10,50 +10,43 @@ import { Avatar, Badge, Layout, Typography } from "antd";
 import ModalEditPost from "./Modal/ModalEditPost";
 import ModalCreatePost from "./Modal/ModalCreatePost";
 import { useDispatch, useSelector } from "react-redux";
-import { GetPostListUserLoginActionAsync } from "../../Redux/Reducer/PostRequestReducer";
-
+import {
+  GetPostListUserLoginActionAsync,
+  getPostRequestByIdActionAsync,
+} from "../../Redux/Reducer/PostRequestReducer";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
-// const posts = [
-//   {
-//     userAvatar:
-//       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl-NviIBQL9BxKSmvGrdvpeKTMsiwnuHA24A&s",
-//     userName: "John Doe",
-//     postedTime: "2 hours ago",
-//     content: "This is a sample post content with an image.",
-//     image: "https://via.placeholder.com/600x400",
-//   },
-//   {
-//     userAvatar:
-//       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPa4v71EAqh6TvoLPHeO2T92QpHr44h2jmHA&s",
-//     userName: "Jane Smith",
-//     postedTime: "3 hours ago",
-//     content: "Another post without an image.",
-//     image: null,
-//   },
-//   {
-//     userAvatar:
-//       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1_NUx_3Q5UK_XadfRgMqo_7X4dILRtBCSQ&s",
-//     userName: "Alice Johnson",
-//     postedTime: "1 hour ago",
-//     content: "This is yet another sample post content with an image.",
-//     image: "https://via.placeholder.com/600x400",
-//   },
-// ];
-
 const PostContent = () => {
   const { tokenUser } = useSelector((state) => state.UserReducer);
   console.log(tokenUser);
-  const {postListUserLogin} = useSelector((state)=>state.PostRequestReducer)
-  console.log(postListUserLogin)
+  const { postListUserLogin } = useSelector(
+    (state) => state.PostRequestReducer
+  );
+
+  console.log(postListUserLogin);
 
   const dispatch = useDispatch();
   useEffect(() => {
     const actionAsync = GetPostListUserLoginActionAsync();
-    dispatch(actionAsync)
+    dispatch(actionAsync);
   }, []);
+
+  const handleDeletePostById = (id) => {
+    return () => {
+      // const actionAsync = DeletePostByIdActionAsync(id);
+      // dispatch(actionAsync);
+      // console.log(id)
+    };
+  };
+
+  const handleGetPostById = (id) => {
+    return () => {
+      const actionAsync = getPostRequestByIdActionAsync(id);
+      dispatch(actionAsync);
+    };
+  };
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -116,10 +109,14 @@ const PostContent = () => {
                     className="btn btn-warning"
                     data-bs-toggle="modal"
                     data-bs-target="#modalId"
+                    onClick={handleGetPostById(post.postId)}
                   >
                     <EditOutlined />
                   </button>
-                  <button className="btn btn-danger">
+                  <button
+                    className="btn btn-danger"
+                    onClick={handleDeletePostById(post.postId)}
+                  >
                     <DeleteOutlined />
                   </button>
                 </div>
