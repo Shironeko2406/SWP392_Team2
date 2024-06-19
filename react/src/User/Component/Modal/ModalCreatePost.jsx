@@ -1,6 +1,60 @@
-import React from 'react'
+import React from "react";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { CreatePostActionAsync } from "../../../Redux/Reducer/PostRequestReducer";
+import { getCurrentDateTime } from "../../../Utils/UtilFuction";
 
 const ModalCreatePost = () => {
+  const dispatch = useDispatch();
+  // const formCreatePost = useFormik({
+  //   initialValues: {
+  //     description: "",
+  //     location: "",
+  //     schedule: "",
+  //     preferredTime: "",
+  //     mode: 1,
+  //     gender: "",
+  //     status: 1,
+  //     requestSkill: "",
+  //     createdDate: "2024-06-17",
+  //   },
+  //   onSubmit: (value) => {
+  //     console.log(value);
+
+  //     const actionAsync = CreatePostActionAsync(value);
+  //     dispatch(actionAsync);
+  //   },
+  // });
+  const formCreatePost = useFormik({
+    initialValues: {
+      description: "",
+      location: "",
+      schedule: "",
+      preferredTime: "",
+      mode: 1,
+      gender: "",
+      status: 1,
+      requestSkill: "",
+      createdDate: "",
+    },
+    onSubmit: (values) => {
+      const currentTime = getCurrentDateTime();
+      const valuesToSend = {
+        ...values,
+        gender: parseInt(values.gender) || 0, // Chuyển giá trị gender thành số nguyên
+        createdDate: currentTime,
+      };
+      console.log(valuesToSend);
+
+      const actionAsync = CreatePostActionAsync(valuesToSend);
+      dispatch(actionAsync);
+    },
+  });
+
+  const handleSubmit = () => {
+    formCreatePost.handleSubmit(); // Kích hoạt submit của formik
+  };
+
   return (
     <div>
       {/* Modal trigger button */}
@@ -42,77 +96,92 @@ const ModalCreatePost = () => {
               />
             </div>
             <div className="modal-body">
-            <form>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+              <form onSubmit={formCreatePost.handleSubmit}>
+                <div className="form-group mb-3">
+                  {" "}
+                  {/* Thêm lớp mb-3 ở đây */}
                   <label htmlFor="postId">PostId</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="postId"                  
+                    id="postId"
+                    name="postId"
+                    onChange={formCreatePost.handleChange}
+                    readOnly
+                    placeholder="Id auto random"
                   />
                 </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
-                  <label htmlFor="postId">Subject</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="postId"                  
-                  />
-                </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+                <div className="form-group mb-3">
+                  {" "}
+                  {/* Thêm lớp mb-3 ở đây */}
                   <label htmlFor="description">Description</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="description"         
+                    id="description"
+                    name="description"
+                    onChange={formCreatePost.handleChange}
                   />
                 </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
-                  <label htmlFor="address">Address</label>
+                <div className="form-group mb-3">
+                  {" "}
+                  {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="location">Location</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="address"       
+                    id="location"
+                    name="location"
+                    onChange={formCreatePost.handleChange}
                   />
                 </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
+                <div className="form-group mb-3">
+                  {" "}
+                  {/* Thêm lớp mb-3 ở đây */}
                   <label htmlFor="schedule">Schedule</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="schedule"         
+                    id="schedule"
+                    name="schedule"
+                    onChange={formCreatePost.handleChange}
                   />
                 </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
-                  <label htmlFor="schedule">Degree</label>
+                <div className="form-group mb-3">
+                  {" "}
+                  {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="preferredTime">Preferred Time</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="schedule"         
+                    id="preferredTime"
+                    name="preferredTime"
+                    onChange={formCreatePost.handleChange}
                   />
                 </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
-                  <label htmlFor="schedule">Start Date</label>
-                  <input
-                    type="date"
+                <div className="form-group mb-3">
+                  <label htmlFor="gender">Gender</label>
+                  <select
                     className="form-control"
-                    id="schedule"         
-                  />
+                    id="gender"
+                    name="gender"
+                    onChange={formCreatePost.handleChange}
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                  </select>
                 </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
-                  <label htmlFor="schedule">End Date</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="schedule"         
-                  />
-                </div>
-                <div className="form-group mb-3"> {/* Thêm lớp mb-3 ở đây */}
-                  <label htmlFor="schedule">Time</label>
+                <div className="form-group mb-3">
+                  {" "}
+                  {/* Thêm lớp mb-3 ở đây */}
+                  <label htmlFor="requestSkill">Request Skill</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="schedule"         
+                    id="requestSkill"
+                    name="requestSkill"
+                    onChange={formCreatePost.handleChange}
                   />
                 </div>
               </form>
@@ -125,7 +194,11 @@ const ModalCreatePost = () => {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
                 Save
               </button>
             </div>
@@ -134,7 +207,7 @@ const ModalCreatePost = () => {
       </div>
       {/* Optional: Place to the bottom of scripts */}
     </div>
-  )
-}
+  );
+};
 
-export default ModalCreatePost
+export default ModalCreatePost;

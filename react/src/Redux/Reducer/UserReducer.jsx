@@ -32,27 +32,26 @@ export const { getTokenAction, getUserLoginAction } = UserReducer.actions;
 export default UserReducer.reducer;
 
 //-----------API Call-------------
-// export const LoginActionAsync = (dataUser) => {
-//   return async (dispatch) => {
-//     try {
-//       const res = await axios.post('https://tutorlinkproject.azurewebsites.net/api/Auth/login', dataUser)
-//       console.log(res.data.data.accessTokenToken)
-
-//       setDataTextStorage(TOKEN_AUTHOR, res.data.data.accessTokenToken);
-//       const action = getTokenAction(res.data.data.accessTokenToken)
-
-//       dispatch(action)
-//     } catch (error) {
-//       console.error(error)
-//     }
-//   };
-// };
+export const RegisterUserActionAsync = (dataUser) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "https://tutorlinkproject.azurewebsites.net/Account/add-account",
+        dataUser
+      );
+      console.log(res)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 export const LoginActionAsync = (dataUser) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(
         "https://tutorlinkproject.azurewebsites.net/api/Auth/login",
+        // "https://localhost:7194/api/Auth/login",
         dataUser
       );
       console.log(res.data.data.accessTokenToken);
