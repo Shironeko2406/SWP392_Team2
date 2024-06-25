@@ -16,8 +16,9 @@ const Login = () => {
   const screens = useBreakpoint();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { tokenUser } = useSelector((state) => state.UserReducer);
-  console.log(tokenUser);
+  const { tokenUser, userLogin } = useSelector((state) => state.UserReducer);
+  // console.log(tokenUser);
+  // console.log(userLogin)
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -25,9 +26,16 @@ const Login = () => {
     dispatch(actionAsync);
   };
 
+
   useEffect(() => {
     if (getDataTextStorage(TOKEN_AUTHOR)) {
-      navigate("/home");
+      if (userLogin.Role === '1') {
+        navigate("/admin")
+      } else if(userLogin.Role === '4'){
+        navigate("/home")
+      } else if (userLogin.Role === '3') {
+        navigate("/tutor")
+      }
     }
   }, [[tokenUser]]);
 

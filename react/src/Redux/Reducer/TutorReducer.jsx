@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { HOST_DOMAIN } from "../../Utils/UtilFuction";
 
 const initialState = {
     testField: null
@@ -19,7 +20,7 @@ export const RegisterTuTorActionAsync = (dataUser) => {
     return async (dispatch) => {
       try {
         const res = await axios.post(
-          "https://tutorlinkproject.azurewebsites.net/Tutor/add-tutor",
+          `${HOST_DOMAIN}/Tutor/add-tutor`,
           dataUser, {
             headers: {
               "content-Type": "application/json",

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 import {
+  HOST_DOMAIN,
   TOKEN_AUTHOR,
   USER_LOGIN,
   getDataJSONStorage,
@@ -36,7 +37,7 @@ export const RegisterUserActionAsync = (dataUser) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(
-        "https://tutorlinkproject.azurewebsites.net/Account/add-account",
+        `${HOST_DOMAIN}/Account/add-account`,
         dataUser
       );
       console.log(res)
@@ -51,7 +52,7 @@ export const LoginActionAsync = (dataUser) => {
     try {
       const res = await axios.post(
         // "https://tutorlinkproject.azurewebsites.net/api/Auth/login",
-        "https://localhost:7194/api/Auth/login",
+        `${HOST_DOMAIN}/api/Auth/login`,
         dataUser
       );
       console.log(res.data.data.accessTokenToken);

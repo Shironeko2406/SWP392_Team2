@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TOKEN_AUTHOR, getDataTextStorage } from "../../Utils/UtilFuction";
+import { HOST_DOMAIN, TOKEN_AUTHOR, getDataTextStorage } from "../../Utils/UtilFuction";
 
 const initialState = {
   postListUserLogin: [],
-  postById: [],
+  postById: {},
 };
 
 const PostRequestReducer = createSlice({
@@ -34,7 +34,7 @@ export const CreatePostActionAsync = (postData) => {
       const token = getDataTextStorage(TOKEN_AUTHOR);
       const res = await axios.post(
         // "https://tutorlinkproject.azurewebsites.net/PostRequest/add-post-request",
-        "https://localhost:7194/PostRequest/add-post-request",
+        `${HOST_DOMAIN}/PostRequest/add-post-request`,
         postData,
         {
           headers: {
@@ -58,7 +58,7 @@ export const GetPostListUserLoginActionAsync = () => {
       const token = getDataTextStorage(TOKEN_AUTHOR);
       const res = await axios.get(
         // "https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-user-login",
-        "https://localhost:7194/PostRequest/post-request-user-login",
+        `${HOST_DOMAIN}/PostRequest/post-request-user-login`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,27 +75,33 @@ export const GetPostListUserLoginActionAsync = () => {
   };
 };
 
-// export const DeletePostByIdActionAsync = (id) => {
-//   return async (dispatch) => {
-//     try {
-//       const res = await axios.delete(
-//         `https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-postId/${id}`
-//       );
-//       console.log(res.data);
-//       // const action = setPostListUserLogin(res.data);
-//       // dispatch(action);
-//     } catch (error) {
-//       console.error(error);
-//       console.log(id);
-//     }
-//   };
-// };
+export const DeletePostByIdActionAsync = (id) => {
+  return async (dispatch) => {
+    try {
+      const token = getDataTextStorage(TOKEN_AUTHOR);
+      const res = await axios.delete(
+        `${HOST_DOMAIN}/PostRequest/post-request-postId/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(res.data);
+      const action = GetPostListUserLoginActionAsync();
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 export const getPostRequestByIdActionAsync = (id) => {
   return async (dispatch) => {
     try {
       const res = await axios.get(
-        `https://localhost:7194/PostRequest/post-request-id/${id}`
+        `${HOST_DOMAIN}/PostRequest/post-request-id/${id}`
       );
       console.log(res.data);
       const action = setPostById(res.data);
@@ -111,7 +117,7 @@ export const updatePostByIdActionAsync = (id, dataUpdate) => {
     try {
       const token = getDataTextStorage(TOKEN_AUTHOR);
       const res = await axios.put(
-        `https://localhost:7194/PostRequest/update-post-request/${id}`,
+        `${HOST_DOMAIN}/PostRequest/update-post-request/${id}`,
         dataUpdate,
         {
           headers: {
@@ -121,7 +127,7 @@ export const updatePostByIdActionAsync = (id, dataUpdate) => {
         }
       );
       console.log(res.data);
-      const action = GetPostListUserLoginActionAsync(res.data);
+      const action = GetPostListUserLoginActionAsync();
       dispatch(action);
     } catch (error) {
       console.error(error);
