@@ -6,25 +6,7 @@ import { getCurrentDateTime } from "../../../Utils/UtilFuction";
 
 const ModalCreatePost = () => {
   const dispatch = useDispatch();
-  // const formCreatePost = useFormik({
-  //   initialValues: {
-  //     description: "",
-  //     location: "",
-  //     schedule: "",
-  //     preferredTime: "",
-  //     mode: 1,
-  //     gender: "",
-  //     status: 1,
-  //     requestSkill: "",
-  //     createdDate: "2024-06-17",
-  //   },
-  //   onSubmit: (value) => {
-  //     console.log(value);
-
-  //     const actionAsync = CreatePostActionAsync(value);
-  //     dispatch(actionAsync);
-  //   },
-  // });
+  
   const formCreatePost = useFormik({
     initialValues: {
       description: "",

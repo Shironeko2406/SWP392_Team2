@@ -1,5 +1,7 @@
 const TOKEN_AUTHOR = "accessToken";
 const USER_LOGIN = "userLogin";
+const HOST_DOMAIN =
+  "https://localhost:7194";
 
 //  Cookie and local storage interaction functions
 
@@ -55,11 +57,11 @@ function deleteCookie(name) {
 function getCurrentDateTime() {
   const now = new Date();
   const year = now.getFullYear();
-  const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Tháng bắt đầu từ 0
-  const day = now.getDate().toString().padStart(2, '0');
-  const hours = now.getHours().toString().padStart(2, '0');
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  const seconds = now.getSeconds().toString().padStart(2, '0');
+  const month = (now.getMonth() + 1).toString().padStart(2, "0"); // Tháng bắt đầu từ 0
+  const day = now.getDate().toString().padStart(2, "0");
+  const hours = now.getHours().toString().padStart(2, "0");
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const seconds = now.getSeconds().toString().padStart(2, "0");
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
@@ -76,4 +78,5 @@ export {
   getCurrentDateTime,
   TOKEN_AUTHOR,
   USER_LOGIN,
+  HOST_DOMAIN
 };
