@@ -5,8 +5,22 @@ import {
   EditOutlined,
   DeleteOutlined,
   PlusOutlined,
+  ClockCircleOutlined,
+  EyeOutlined,
+  CheckCircleOutlined,
+  SyncOutlined,
+  MinusCircleOutlined,
 } from "@ant-design/icons";
-import { Avatar, Badge, Layout, Typography, Card, Button, Modal } from "antd";
+import {
+  Avatar,
+  Badge,
+  Layout,
+  Typography,
+  Card,
+  Button,
+  Modal,
+  Tag,
+} from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -66,11 +80,42 @@ const PostUserContent = () => {
     setEditPostId(null);
   };
 
+  const renderGender = (gender) => {
+    if (gender === 1) return "Male";
+    if (gender === 2) return "Female";
+    return "Unknown";
+  };
+
+  const renderStatusTag = (status) => {
+    switch (status) {
+      case 0:
+        return (
+          <Tag icon={<SyncOutlined spin />} color="processing">
+            Pending...
+          </Tag>
+        );
+      case 1:
+        return (
+          <Tag icon={<CheckCircleOutlined />} color="success">
+            Public
+          </Tag>
+        );
+      case 3:
+        return (
+          <Tag icon={<MinusCircleOutlined />} color="default">
+            Close
+          </Tag>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Layout>
       <Header style={{ background: "#fff", padding: 0 }}>
         <div className="d-flex justify-content-between align-items-center">
-          <Title level={3} style={{ margin: "16px" }}>
+          <Title level={3} >
             Post Content
           </Title>
           <Button
@@ -78,13 +123,13 @@ const PostUserContent = () => {
             shape="circle"
             icon={<PlusOutlined />}
             size="large"
-            style={{ margin: "16px" }}
+            style={{ margin: "0 16px" }}
             onClick={handleCreatePost}
           />
         </div>
       </Header>
       <Content style={{ margin: "16px" }}>
-        <div className="container mt-3">
+        <div>
           {postListUserLogin
             .filter((post) => post.status !== 3)
             .map((post) => (
@@ -92,7 +137,7 @@ const PostUserContent = () => {
                 key={post.postId}
                 style={{ marginBottom: "20px" }}
                 actions={[
-                  <Badge count={1}>
+                  <Badge count={post.applies.length}>
                     <MailOutlined key="mail" />
                   </Badge>,
                   <EditOutlined
@@ -109,19 +154,43 @@ const PostUserContent = () => {
                   avatar={
                     <Avatar
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNVRKFKJYhupjDCThl0VkE0EdEbhoW1-U7hg&s"
-                      alt="User Avatar" 
+                      alt="User Avatar"
                       size="large"
                     />
                   }
                   title={
                     <div>
-                      <strong>Nahida</strong>
+                      <div className="d-flex align-items-center">
+                        <strong>Nahida</strong>
+                        <div style={{ marginLeft: "8px" }}>
+                          {renderStatusTag(post.status)}
+                        </div>
+                      </div>
                       <div className="text-muted" style={{ fontSize: "12px" }}>
                         {new Date(post.createdDate).toLocaleString()}
                       </div>
                     </div>
                   }
-                  description={<p>{post.description}</p>}
+                  description={
+                    <div>
+                      <p>{post.description}</p>
+                      <p>
+                        <strong>Location:</strong> {post.location}
+                      </p>
+                      <p>
+                        <strong>Schedule:</strong> {post.schedule}
+                      </p>
+                      <p>
+                        <strong>Preferred Time:</strong> {post.preferredTime}
+                      </p>
+                      <p>
+                        <strong>Gender:</strong> {renderGender(post.gender)}
+                      </p>
+                      <p>
+                        <strong>Request Skill:</strong> {post.requestSkill}
+                      </p>
+                    </div>
+                  }
                 />
               </Card>
             ))}
@@ -129,11 +198,8 @@ const PostUserContent = () => {
             visible={isEditModalVisible}
             onClose={handleEditModalClose}
             postId={editPostId}
-          ></EditPost>
-          <CreatePost
-            visible={isModalVisible}
-            onClose={handleModalClose}
-          ></CreatePost>
+          />
+          <CreatePost visible={isModalVisible} onClose={handleModalClose} />
         </div>
       </Content>
     </Layout>

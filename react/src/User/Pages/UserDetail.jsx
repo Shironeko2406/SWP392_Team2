@@ -33,33 +33,17 @@ const user = {
   gender: "Male",
 };
 
-// const items = [
-//   {
-//     key: '1',
-//     icon: <UserOutlined />,
-//     label: 'Profile',
-//   },
-//   {
-//     key: '2',
-//     icon: <SettingOutlined />,
-//     label: 'Settings',
-//   },
-// ];
 
 const UserDetail = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {/* <Sider>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} items={items} />
-      </Sider> */}
-      <Layout>
-        <Header style={{ background: "#fff", padding: 0 }}>
-          <Title level={3} style={{ margin: "16px" }}>
+      <Header style={{ background: "#fff", padding: 0 }}>
+          <Title level={3} >
             User Profile
           </Title>
         </Header>
         <Content
-          style={{ margin: "24px 16px", padding: 24, background: "#fff" }}
+          style={{ margin: " 16px", background: "#fff" }}
         >
           <Card bordered={false}>
             <div style={{ textAlign: "center" }}>
@@ -91,7 +75,6 @@ const UserDetail = () => {
             </Descriptions>
           </Card>
         </Content>
-      </Layout>
     </Layout>
   );
 };

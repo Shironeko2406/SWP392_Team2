@@ -52,7 +52,7 @@ const AppointmentSchedule = () => {
     <Layout style={{ minHeight: "100vh" }}>
       <Header style={{ background: "#fff", padding: 0 }}>
         <div className="d-flex justify-content-between align-items-center">
-          <Title level={3} style={{ margin: "16px" }}>
+          <Title level={3} >
             Appointment Schedule
           </Title>
           <Button
@@ -60,7 +60,7 @@ const AppointmentSchedule = () => {
             shape="circle"
             icon={<PlusOutlined />}
             size="large"
-            style={{ margin: "16px" }}
+            style={{ margin: "0 16px" }}
             onClick={handleCreateAppointment}
           />
         </div>
