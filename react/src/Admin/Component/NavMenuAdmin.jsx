@@ -36,41 +36,113 @@ const NavMenuAdmin = () => {
               <span className="sidebar-mini-icon">
                 <i className="fa fa-ellipsis-h" />
               </span>
-              <h4 className="text-section">User Management</h4>
+              <h4 className="text-section">Dashboard</h4>
             </li>
-            <li className="nav-item">
-                <a data-bs-toggle="collapse" href="#forms">
-                  <i className="fas fa-pen-square" />
-                  <p>Forms</p>
-                  <span className="caret" />
-                </a>
-                <div className="collapse" id="forms">
-                  <ul className="nav nav-collapse">
-                    <li>
-                      <a href="../forms/forms.html">
-                        <span className="sub-item">Basic Form</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
             <li className="nav-item active submenu">
-              <a data-bs-toggle="collapse" href="#tables">
-                <i className="fas fa-table" />
+              <a data-bs-toggle="collapse" href="#user">
+                <i class="fa fa-user"></i>
                 <p>User</p>
                 <span className="caret" />
               </a>
-              <div className="collapse show" id="tables">
+              <div className="collapse show" id="user">
                 <ul className="nav nav-collapse">
-                  <li>
+                  <li className="active">
                     <NavLink to="/admin">
-                      <span className="sub-item">Account</span>
+                      <span className="sub-item">User Account</span>
                     </NavLink>
                   </li>
-                  <li className="active">
-                    <NavLink to="/admin/form">
-                      <span className="sub-item">Datatables</span>
-                    </NavLink>
+                </ul>
+              </div>
+            </li>
+            <li className="nav-item">
+              <a data-bs-toggle="collapse" href="#tutor">
+                <i class="fa fa-chalkboard-teacher"></i>
+                <p>Tutor</p>
+                <span className="caret" />
+              </a>
+              <div className="collapse" id="tutor">
+                <ul className="nav nav-collapse">
+                  <li>
+                    <a href="../forms/forms.html">
+                      <span className="sub-item">Tutor Account</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li className="nav-item">
+              <a data-bs-toggle="collapse" href="#post">
+                <i className="fas fa-paper-plane" />
+                <p>Post</p>
+                <span className="caret" />
+              </a>
+              <div className="collapse" id="post">
+                <ul className="nav nav-collapse">
+                  <li>
+                    <a href="../forms/forms.html">
+                      <span className="sub-item">Post By User</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="../forms/forms.html">
+                      <span className="sub-item">Pending</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <a data-bs-toggle="collapse" href="#apply">
+                <i className="fas fa-file-signature"></i>
+                <p>Apply</p>
+                <span className="caret" />
+              </a>
+              <div className="collapse" id="apply">
+                <ul className="nav nav-collapse">
+                  <li>
+                    <a href="../forms/forms.html">
+                      <span className="sub-item">Apply 1</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="../forms/forms.html">
+                      <span className="sub-item">Apply 2</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <a data-bs-toggle="collapse" href="#language">
+                <i class="fa fa-language"></i>
+                <p>Language</p>
+                <span className="caret" />
+              </a>
+              <div className="collapse" id="language">
+                <ul className="nav nav-collapse">
+                  <li>
+                    <a href="../forms/forms.html">
+                      <span className="sub-item">Subject</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <a data-bs-toggle="collapse" href="#Role">
+                <i className="fas fa-user-tag"></i>
+                <p>Role</p>
+                <span className="caret" />
+              </a>
+              <div className="collapse" id="Role">
+                <ul className="nav nav-collapse">
+                  <li>
+                    <a href="../forms/forms.html">
+                      <span className="sub-item">Role Detail</span>
+                    </a>
                   </li>
                 </ul>
               </div>

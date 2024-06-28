@@ -30,24 +30,24 @@ const ManageUser = () => {
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
+                      <th>Email</th>
+                      <th>Address</th>
+                      <th>Phone</th>
+                      <th>Gender</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
+                      <th>Email</th>
+                      <th>Address</th>
+                      <th>Phone</th>
+                      <th>Gender</th>
+                      <th>Action</th>
                     </tr>
                   </tfoot>
-                  <tbody>
+                  {/* <tbody>
                     <tr>
                       <td>Tiger Nixon</td>
                       <td>System Architect</td>
@@ -504,7 +504,7 @@ const ManageUser = () => {
                       <td>2011/01/25</td>
                       <td>$112,000</td>
                     </tr>
-                  </tbody>
+                  </tbody> */}
                 </table>
               </div>
             </div>
