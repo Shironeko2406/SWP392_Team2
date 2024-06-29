@@ -50,7 +50,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Route>
         <Route path="testForm" element={<FormTestKhac></FormTestKhac>} />
         <Route path="tutor" element={<TempUITutor></TempUITutor>} >
-        <Route path="" element={<TuTorHome></TuTorHome>}></Route>
+          <Route path="" element={<TuTorHome></TuTorHome>}></Route>
         </Route>
         <Route path="home" element={<TemplateUI></TemplateUI>}>
           <Route path="" element={<PostUserContent></PostUserContent>}></Route>
