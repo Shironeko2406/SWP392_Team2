@@ -1,38 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { HOST_DOMAIN, TOKEN_AUTHOR, getDataTextStorage } from "../../Utils/UtilFuction";
+import {
+  HOST_DOMAIN,
+  TOKEN_AUTHOR,
+  getDataTextStorage,
+} from "../../Utils/UtilFuction";
 
 const initialState = {
   postListUserLogin: [
     {
-      "postId": "efaac2b4-f5fe-4305-ae80-342296d8072a",
-      "description": "Tìm gia sư kèm thái lan lan lan",
-      "location": "quan 3",
-      "schedule": "3 session/week",
-      "preferredTime": "2h",
-      "mode": 0,
-      "gender": 2,
-      "status": 0,
-      "requestSkill": "ielts",
-      "createdBy": "545cae62-66ee-4c8f-aeee-a93d5164ff8e",
-      "createdDate": "2024-06-19T19:58:38",
-      "applies": []
+      postId: "efaac2b4-f5fe-4305-ae80-342296d8072a",
+      description: "Tìm gia sư kèm thái lan lan lan",
+      location: "quan 3",
+      schedule: "3 session/week",
+      preferredTime: "2h",
+      mode: 0,
+      gender: 2,
+      status: 0,
+      requestSkill: "ielts",
+      createdBy: "545cae62-66ee-4c8f-aeee-a93d5164ff8e",
+      createdDate: "2024-06-19T19:58:38",
+      applies: [],
     },
     {
-      "postId": "51353f28-6dc6-4a86-8d4b-3c063c932ed7",
-      "description": "Tìm gia sư kèm tiếng anh",
-      "location": "quan 3",
-      "schedule": "3 session/week",
-      "preferredTime": "2hour",
-      "mode": 0,
-      "gender": 1,
-      "status": 0,
-      "requestSkill": "ielts 7.",
-      "createdBy": "9ef8c67c-5bf6-4093-ba63-0d820ff38978",
-      "createdDate": "2024-06-25T23:40:38",
-      "applies": []
+      postId: "51353f28-6dc6-4a86-8d4b-3c063c932ed7",
+      description: "Tìm gia sư kèm tiếng anh",
+      location: "quan 3",
+      schedule: "3 session/week",
+      preferredTime: "2hour",
+      mode: 0,
+      gender: 1,
+      status: 0,
+      requestSkill: "ielts 7.",
+      createdBy: "9ef8c67c-5bf6-4093-ba63-0d820ff38978",
+      createdDate: "2024-06-25T23:40:38",
+      applies: [],
     },
   ],
   postById: {},
+  postListPending: [],
 };
 
 const PostRequestReducer = createSlice({
@@ -48,11 +53,18 @@ const PostRequestReducer = createSlice({
     resetPostByIdAction: (state) => {
       state.postById = [];
     },
+    setPostListPending: (state, action) => {
+      state.postListPending = action.payload;
+    },
   },
 });
 
-export const { setPostListUserLogin, setPostById, resetPostByIdAction } =
-  PostRequestReducer.actions;
+export const {
+  setPostListUserLogin,
+  setPostById,
+  resetPostByIdAction,
+  setPostListPending,
+} = PostRequestReducer.actions;
 
 export default PostRequestReducer.reducer;
 
@@ -157,6 +169,22 @@ export const updatePostByIdActionAsync = (id, dataUpdate) => {
       );
       console.log(res.data);
       const action = GetPostListUserLoginActionAsync();
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const GetPostListPendingActionAsync = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(
+        // "https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-user-login",
+        `${HOST_DOMAIN}/PostRequest/post-requests`
+      );
+      const filteredData = res.data.filter((post) => post.status === 0);
+      const action = setPostListPending(filteredData);
       dispatch(action);
     } catch (error) {
       console.error(error);

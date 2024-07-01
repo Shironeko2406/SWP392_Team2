@@ -63,9 +63,9 @@ const NavMenuAdmin = () => {
               <div className="collapse" id="tutor">
                 <ul className="nav nav-collapse">
                   <li>
-                    <a href="../forms/forms.html">
+                    <NavLink to="/admin/tutor">
                       <span className="sub-item">Tutor Account</span>
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </div>
@@ -79,14 +79,14 @@ const NavMenuAdmin = () => {
               <div className="collapse" id="post">
                 <ul className="nav nav-collapse">
                   <li>
-                    <a href="../forms/forms.html">
+                    <NavLink to="/admin/post-by-user">
                       <span className="sub-item">Post By User</span>
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
-                    <a href="../forms/forms.html">
+                    <NavLink to="/admin/pending">
                       <span className="sub-item">Pending</span>
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </div>
@@ -123,9 +123,9 @@ const NavMenuAdmin = () => {
               <div className="collapse" id="language">
                 <ul className="nav nav-collapse">
                   <li>
-                    <a href="../forms/forms.html">
+                    <NavLink to="/admin/subject">
                       <span className="sub-item">Subject</span>
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </div>
@@ -140,9 +140,9 @@ const NavMenuAdmin = () => {
               <div className="collapse" id="Role">
                 <ul className="nav nav-collapse">
                   <li>
-                    <a href="../forms/forms.html">
+                    <NavLink to="/admin/role">
                       <span className="sub-item">Role Detail</span>
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </div>

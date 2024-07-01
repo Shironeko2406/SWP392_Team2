@@ -13,6 +13,7 @@ import {
 const initialState = {
   tokenUser: getDataTextStorage(TOKEN_AUTHOR),
   userLogin: getDataJSONStorage(USER_LOGIN),
+  userList: [],
 };
 
 const UserReducer = createSlice({
@@ -25,10 +26,14 @@ const UserReducer = createSlice({
     getUserLoginAction: (state, action) => {
       state.userLogin = action.payload;
     },
+    setUserListAction: (state, action) => {
+      state.userList = action.payload;
+    },
   },
 });
 
-export const { getTokenAction, getUserLoginAction } = UserReducer.actions;
+export const { getTokenAction, getUserLoginAction, setUserListAction } =
+  UserReducer.actions;
 
 export default UserReducer.reducer;
 
@@ -40,7 +45,7 @@ export const RegisterUserActionAsync = (dataUser) => {
         `${HOST_DOMAIN}/Account/add-account`,
         dataUser
       );
-      console.log(res)
+      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -66,7 +71,19 @@ export const LoginActionAsync = (dataUser) => {
       const action2 = getUserLoginAction(user);
       dispatch(action1);
       dispatch(action2);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const GetUserManageActionAsync = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`${HOST_DOMAIN}/Account/list`);
       
+      const action = setUserListAction(res.data);
+      dispatch(action);
     } catch (error) {
       console.error(error);
     }
