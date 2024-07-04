@@ -10,6 +10,7 @@ const NavMenuAdmin = () => {
           <a href="../index.html" className="logo">
             <img
               src="../assets/img/kaiadmin/logo_light.svg"
+              // src="../../../public/assets/img/kaiadmin/logo_light.svg"
               alt="navbar brand"
               className="navbar-brand"
               height={20}
