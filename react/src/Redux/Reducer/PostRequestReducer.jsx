@@ -38,6 +38,7 @@ const initialState = {
   ],
   postById: {},
   postListPending: [],
+  postList:[]
 };
 
 const PostRequestReducer = createSlice({
@@ -56,6 +57,9 @@ const PostRequestReducer = createSlice({
     setPostListPending: (state, action) => {
       state.postListPending = action.payload;
     },
+    setPostList: (state, action)=>{
+      state.postList = action.payload
+    }
   },
 });
 
@@ -64,6 +68,7 @@ export const {
   setPostById,
   resetPostByIdAction,
   setPostListPending,
+  setPostList,
 } = PostRequestReducer.actions;
 
 export default PostRequestReducer.reducer;
@@ -185,6 +190,21 @@ export const GetPostListPendingActionAsync = () => {
       );
       const filteredData = res.data.filter((post) => post.status === 0);
       const action = setPostListPending(filteredData);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const GetPostListActionAsync = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(
+        // "https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-user-login",
+        `${HOST_DOMAIN}/PostRequest/post-requests`
+      );
+      const action = setPostList(res.data);
       dispatch(action);
     } catch (error) {
       console.error(error);

@@ -5,8 +5,6 @@ import {
   EditOutlined,
   DeleteOutlined,
   PlusOutlined,
-  ClockCircleOutlined,
-  EyeOutlined,
   CheckCircleOutlined,
   SyncOutlined,
   MinusCircleOutlined,
@@ -30,6 +28,7 @@ import {
 } from "../../Redux/Reducer/PostRequestReducer";
 import CreatePost from "../Component/Modal/CreatePost";
 import EditPost from "../Component/Modal/EditPost";
+import { TOKEN_AUTHOR, USER_LOGIN, getDataJSONStorage, getDataTextStorage } from "../../Utils/UtilFuction";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -44,6 +43,8 @@ const PostUserContent = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [editPostId, setEditPostId] = useState(null);
+  // const user = getDataJSONStorage(USER_LOGIN);
+  // console.log(user.UserId)
 
   useEffect(() => {
     const actionAsync = GetPostListUserLoginActionAsync();

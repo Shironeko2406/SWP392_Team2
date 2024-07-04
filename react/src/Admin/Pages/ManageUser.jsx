@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUserManageActionAsync } from "../../Redux/Reducer/UserReducer";
+import { DeleteUserByIdActionAsync, GetUserManageActionAsync } from "../../Redux/Reducer/UserReducer";
 
 const ManageUser = () => {
   const { userList } = useSelector((state) => state.UserReducer);
@@ -22,7 +22,7 @@ const ManageUser = () => {
       }
       tableRef.current = $("#user-manage-table").DataTable();
     }
-  }, [userList]);
+  }, []);
 
   const getGenderText = (gender) => {
     switch (gender) {
@@ -35,6 +35,14 @@ const ManageUser = () => {
         return "Other";
     }
   };
+
+  const handleUserDelete = (id) => {
+    return () => {
+      const actionAsync = DeleteUserByIdActionAsync(id);
+      dispatch(actionAsync);
+    };
+  };
+
   return (
     <div className="row">
       <div className="col-md-12">
@@ -96,6 +104,7 @@ const ManageUser = () => {
                             title
                             className="btn btn-link btn-danger"
                             data-original-title="Remove"
+                            onClick={handleUserDelete(user.accountId)}
                           >
                             <i className="fa fa-times" />
                           </button>

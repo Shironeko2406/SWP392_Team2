@@ -1,16 +1,28 @@
-import React from "react";
-import { Button, Form, Grid, Input, Select, theme, Typography } from "antd";
+import React, { useState } from "react";
+import {
+  Button,
+  Form,
+  Grid,
+  Input,
+  Select,
+  theme,
+  Typography,
+  Upload,
+} from "antd";
 import {
   LockOutlined,
   MailOutlined,
   UserOutlined,
   HomeOutlined,
-  IdcardOutlined,
   PhoneOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 import { RegisterUserActionAsync } from "../../Redux/Reducer/UserReducer";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
+import { imageDB } from "../../FirebaseConfig/Config";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -21,19 +33,59 @@ const Register = () => {
   const { token } = useToken();
   const screens = useBreakpoint();
   const dispatch = useDispatch();
+  const [avatarFile, setAvatarFile] = useState(null);
 
-  const onFinish = (values) => {
-    const formUserRegister = {
-      username: values.username,
-      password: values.password,
-      fullname: values.fullname,
-      email: values.email,
-      phone: values.phone,
-      address: values.address,
-      gender: parseInt(values.gender),
-    };
-    const actionAsync = RegisterUserActionAsync(formUserRegister);
-    dispatch(actionAsync);
+  // const onFinish = (values) => {
+  //   const formUserRegister = {
+  //     username: values.username,
+  //     password: values.password,
+  //     fullname: values.fullname,
+  //     email: values.email,
+  //     phone: values.phone,
+  //     address: values.address,
+  //     gender: parseInt(values.gender),
+  //   };
+  //   const actionAsync = RegisterUserActionAsync(formUserRegister);
+  //   dispatch(actionAsync);
+  // };
+
+  const onFinish = async (values) => {
+    if (avatarFile) {
+      const shortUUID = uuidv4().split("-")[0]; // Lấy phần đầu tiên của UUID để rút gọn
+      const storageRef = ref(
+        imageDB,
+        `avatars/${shortUUID}_${avatarFile.name}`
+      );
+      try {
+        const snapshot = await uploadBytes(storageRef, avatarFile);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        const formUserRegister = {
+          username: values.username,
+          password: values.password,
+          fullname: values.fullname,
+          email: values.email,
+          phone: values.phone,
+          address: values.address,
+          avatarURL: downloadURL,
+          gender: parseInt(values.gender),
+        };
+
+        const actionAsync = RegisterUserActionAsync(formUserRegister);
+        dispatch(actionAsync);
+      } catch (error) {
+        console.error("Error uploading file: ", error);
+      }
+    }
+    // else {
+    //   const formUserRegister = {
+    //     username: values.username,
+    //     password: values.password,
+    //     email: values.email,
+    //     avatarURL: null, // hoặc một giá trị mặc định
+    //   };
+    //   console.log(formUserRegister)
+    // }
   };
 
   const styles = {
@@ -103,21 +155,6 @@ const Register = () => {
           requiredMark="optional"
         >
           <Form.Item
-            name="tutorId"
-            rules={[
-              {
-                required: false,
-                message: "Please input your Tutor ID!",
-              },
-            ]}
-          >
-            <Input
-              prefix={<IdcardOutlined />}
-              placeholder="Tutor ID is auto random"
-              disabled={true}
-            />
-          </Form.Item>
-          <Form.Item
             name="username"
             rules={[
               {
@@ -167,6 +204,25 @@ const Register = () => {
               placeholder="Password"
             />
           </Form.Item>
+
+          <Form.Item
+            name="avatar"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+            extra="Upload your avatar"
+          >
+            <Upload
+              name="avatar"
+              listType="picture"
+              beforeUpload={(file) => {
+                setAvatarFile(file);
+                return false;
+              }}
+            >
+              <Button icon={<UploadOutlined />}>Click to upload</Button>
+            </Upload>
+          </Form.Item>
+
           <Form.Item
             name="phone"
             rules={[
