@@ -6,14 +6,15 @@ import {
   USER_LOGIN,
   getDataJSONStorage,
   getDataTextStorage,
-  setDataJSONStorage,
   setDataTextStorage,
 } from "../../Utils/UtilFuction";
+import { message } from "antd";
 
 const initialState = {
   tokenUser: getDataTextStorage(TOKEN_AUTHOR),
   userLogin: getDataJSONStorage(USER_LOGIN),
   userList: [],
+  userProfile: {},
 };
 
 const UserReducer = createSlice({
@@ -29,10 +30,13 @@ const UserReducer = createSlice({
     setUserListAction: (state, action) => {
       state.userList = action.payload;
     },
+    setUserProfile: (state, action) => {
+      state.userProfile = action.payload;
+    },
   },
 });
 
-export const { getTokenAction, getUserLoginAction, setUserListAction } =
+export const { getTokenAction, getUserLoginAction, setUserListAction, setUserProfile } =
   UserReducer.actions;
 
 export default UserReducer.reducer;
@@ -81,8 +85,50 @@ export const GetUserManageActionAsync = () => {
   return async (dispatch) => {
     try {
       const res = await axios.get(`${HOST_DOMAIN}/Account/list`);
-      
+
       const action = setUserListAction(res.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const DeleteUserByIdActionAsync = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.delete(`${HOST_DOMAIN}/Account/delete/${id}`, id);
+      console.log(res.data);
+      const action = GetUserManageActionAsync();
+      dispatch(action);
+      message.success("Success!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const GetUserProfileActionAsync = () => {
+  return async (dispatch) => {
+    try {
+      const user = getDataJSONStorage(USER_LOGIN)
+      const res = await axios.get(`${HOST_DOMAIN}/Account/get/${user.UserId}`);
+
+      const action = setUserProfile(res.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const UpdateUserProfileByIdActionAsync = (id, dataUpdate) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(`${HOST_DOMAIN}/Account/update/${id}`, dataUpdate);
+      console.log(res)
+
+      const action = GetUserProfileActionAsync();
       dispatch(action);
     } catch (error) {
       console.error(error);
