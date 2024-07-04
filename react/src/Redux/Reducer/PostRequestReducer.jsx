@@ -38,7 +38,8 @@ const initialState = {
   ],
   postById: {},
   postListPending: [],
-  postList:[]
+  postList:[],
+  postListUserId: [],
 };
 
 const PostRequestReducer = createSlice({
@@ -59,6 +60,9 @@ const PostRequestReducer = createSlice({
     },
     setPostList: (state, action)=>{
       state.postList = action.payload
+    },
+    setPostListUserId: (state, action)=>{
+      state.postListUserId = action.payload
     }
   },
 });
@@ -69,6 +73,7 @@ export const {
   resetPostByIdAction,
   setPostListPending,
   setPostList,
+  setPostListUserId,
 } = PostRequestReducer.actions;
 
 export default PostRequestReducer.reducer;
@@ -205,6 +210,21 @@ export const GetPostListActionAsync = () => {
         `${HOST_DOMAIN}/PostRequest/post-requests`
       );
       const action = setPostList(res.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const GetPostListUserByIdActionAsync = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(
+        // "https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-user-login",
+        `${HOST_DOMAIN}/PostRequest/post-request-user/${id}`
+      );
+      const action = setPostListUserId(res.data);
       dispatch(action);
     } catch (error) {
       console.error(error);

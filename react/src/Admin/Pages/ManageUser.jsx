@@ -22,7 +22,7 @@ const ManageUser = () => {
       }
       tableRef.current = $("#user-manage-table").DataTable();
     }
-  }, []);
+  }, [userList]);
 
   const getGenderText = (gender) => {
     switch (gender) {

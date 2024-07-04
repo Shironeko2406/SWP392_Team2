@@ -24,6 +24,7 @@ import ManagePostByUser from "./Admin/Pages/ManagePostByUser.jsx";
 import ManagePostPending from "./Admin/Pages/ManagePostPending.jsx";
 import ManageSubject from "./Admin/Pages/ManageSubject.jsx";
 import ManageRole from "./Admin/Pages/ManageRole.jsx";
+import ManagePostDetailUser from "./Admin/Pages/ManagePostDetailUser.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -44,6 +45,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="" element={<ManageUser></ManageUser>}></Route>
           <Route path="tutor" element={<ManageTutor></ManageTutor>}></Route>
           <Route path="post-by-user" element={<ManagePostByUser></ManagePostByUser>}></Route>
+          <Route path="post-by-user/:id" element={<ManagePostDetailUser></ManagePostDetailUser>}></Route>
           <Route path="pending" element={<ManagePostPending></ManagePostPending>}></Route>
           <Route path="subject" element={<ManageSubject></ManageSubject>}></Route>
           <Route path="role" element={<ManageRole></ManageRole>}></Route>

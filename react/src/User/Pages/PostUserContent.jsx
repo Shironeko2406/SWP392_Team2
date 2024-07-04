@@ -162,7 +162,7 @@ const PostUserContent = () => {
                   title={
                     <div>
                       <div className="d-flex align-items-center">
-                        <strong>Nahida</strong>
+                        <strong>{post.createdByUsername}</strong>
                         <div style={{ marginLeft: "8px" }}>
                           {renderStatusTag(post.status)}
                         </div>
