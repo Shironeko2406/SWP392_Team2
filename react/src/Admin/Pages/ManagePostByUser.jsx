@@ -67,7 +67,7 @@ const ManagePostByUser = () => {
                         <td>
                           <div className="form-button-action">
                             <NavLink
-                              to={`/admin/post-by-user/${user.accountId}`}
+                              to={`/admin/${user.accountId}`}
                               className="btn btn-link btn-primary btn-lg"
                               data-bs-toggle="tooltip"
                               title="View User"

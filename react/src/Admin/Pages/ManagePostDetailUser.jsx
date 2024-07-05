@@ -67,7 +67,7 @@ const ManagePostDetailUser = () => {
                   {postListUserId.map((post, index) => (
                     <tr key={post.postId}>
                       <td>{index + 1}</td>
-                      <td>{post.createdByUsername}</td>
+                      <td>No data</td>
                       <td>{new Date(post.createdDate).toLocaleString()}</td>
                       <td>
                         <span class="badge badge-primary">
