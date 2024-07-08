@@ -25,15 +25,22 @@ import ManagePostPending from "./Admin/Pages/ManagePostPending.jsx";
 import ManageSubject from "./Admin/Pages/ManageSubject.jsx";
 import ManageRole from "./Admin/Pages/ManageRole.jsx";
 import ManagePostDetailUser from "./Admin/Pages/ManagePostDetailUser.jsx";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import TutorProfile from "./Tutor/Pages/TutorProfile.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <Routes>
-        <Route path="" element={<Login></Login>} />
-        <Route path="register" element={<Register />} />
-        <Route path="register-tutor" element={<RegisterTutor />} />
-        {/* <Route path="home" element={<Home></Home>}>
+  <GoogleOAuthProvider
+    clientId={
+      "1077302126764-5egr59hd2g3k5lqo3nl9stkrn6hko56v.apps.googleusercontent.com"
+    }
+  >
+    <BrowserRouter>
+      <Provider store={store}>
+        <Routes>
+          <Route path="" element={<Login></Login>} />
+          <Route path="register" element={<Register />} />
+          <Route path="register-tutor" element={<RegisterTutor />} />
+          {/* <Route path="home" element={<Home></Home>}>
           <Route path="" element={<PostContent></PostContent>}></Route>
           <Route path="user-detail" element={<UserDetail></UserDetail>}></Route>
           <Route
@@ -41,28 +48,50 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             element={<AppointmentSchedule></AppointmentSchedule>}
           ></Route>
         </Route> */}
-        <Route path="admin" element={<TempAdmin></TempAdmin>}>
-          <Route path="" element={<ManageUser></ManageUser>}></Route>
-          <Route path="tutor" element={<ManageTutor></ManageTutor>}></Route>
-          <Route path="post-by-user" element={<ManagePostByUser></ManagePostByUser>}></Route>
-          {/* <Route path="post-by-user/:id" element={<ManagePostDetailUser></ManagePostDetailUser>}></Route> */}
-          <Route path=":id" element={<ManagePostDetailUser></ManagePostDetailUser>}></Route>
-          <Route path="pending" element={<ManagePostPending></ManagePostPending>}></Route>
-          <Route path="subject" element={<ManageSubject></ManageSubject>}></Route>
-          <Route path="role" element={<ManageRole></ManageRole>}></Route>
-        </Route>
-        <Route path="testForm" element={<FormTestKhac></FormTestKhac>} />
-        <Route path="tutor" element={<TempUITutor></TempUITutor>} >
-          <Route path="" element={<TuTorHome></TuTorHome>}></Route>
-        </Route>
-        <Route path="home" element={<TemplateUI></TemplateUI>}>
-          <Route path="" element={<PostUserContent></PostUserContent>}></Route>
-          <Route path="appointment-schedule" element={<AppointmentSchedule></AppointmentSchedule>}></Route>
-          <Route path="user-detail" element={<UserDetail></UserDetail>}></Route>
-        </Route>
-        <Route path="testModal" element={<CreatePost></CreatePost>} />
-
-      </Routes>
-    </Provider>
-  </BrowserRouter>
+          <Route path="admin" element={<TempAdmin></TempAdmin>}>
+            <Route path="" element={<ManageUser></ManageUser>}></Route>
+            <Route path="tutor" element={<ManageTutor></ManageTutor>}></Route>
+            <Route
+              path="post-by-user"
+              element={<ManagePostByUser></ManagePostByUser>}
+            ></Route>
+            {/* <Route path="post-by-user/:id" element={<ManagePostDetailUser></ManagePostDetailUser>}></Route> */}
+            <Route
+              path=":id"
+              element={<ManagePostDetailUser></ManagePostDetailUser>}
+            ></Route>
+            <Route
+              path="pending"
+              element={<ManagePostPending></ManagePostPending>}
+            ></Route>
+            <Route
+              path="subject"
+              element={<ManageSubject></ManageSubject>}
+            ></Route>
+            <Route path="role" element={<ManageRole></ManageRole>}></Route>
+          </Route>
+          <Route path="testForm" element={<FormTestKhac></FormTestKhac>} />
+          <Route path="tutor" element={<TempUITutor></TempUITutor>}>
+            <Route path="" element={<TuTorHome></TuTorHome>}></Route>
+            <Route path="tutor-profile" element={<TutorProfile></TutorProfile>}></Route>
+          </Route>
+          <Route path="home" element={<TemplateUI></TemplateUI>}>
+            <Route
+              path=""
+              element={<PostUserContent></PostUserContent>}
+            ></Route>
+            <Route
+              path="appointment-schedule"
+              element={<AppointmentSchedule></AppointmentSchedule>}
+            ></Route>
+            <Route
+              path="user-detail"
+              element={<UserDetail></UserDetail>}
+            ></Route>
+          </Route>
+          <Route path="testModal" element={<CreatePost></CreatePost>} />
+        </Routes>
+      </Provider>
+    </BrowserRouter>
+  </GoogleOAuthProvider>
 );

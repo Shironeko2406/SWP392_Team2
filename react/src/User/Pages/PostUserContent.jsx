@@ -18,6 +18,8 @@ import {
   Button,
   Modal,
   Tag,
+  Dropdown,
+  Menu,
 } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +30,12 @@ import {
 } from "../../Redux/Reducer/PostRequestReducer";
 import CreatePost from "../Component/Modal/CreatePost";
 import EditPost from "../Component/Modal/EditPost";
-import { TOKEN_AUTHOR, USER_LOGIN, getDataJSONStorage, getDataTextStorage } from "../../Utils/UtilFuction";
+import {
+  TOKEN_AUTHOR,
+  USER_LOGIN,
+  getDataJSONStorage,
+  getDataTextStorage,
+} from "../../Utils/UtilFuction";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -112,13 +119,32 @@ const PostUserContent = () => {
     }
   };
 
+  const createApplyMenu = (applies) => (
+    <Menu>
+      {applies.map((apply, index) => (
+        <Menu.Item key={index} style={{ borderBottom: '1px solid #e0e0e0', padding: '20px' }}>
+          <div>
+            <p>
+              <strong>Name:</strong> {apply.fullname}
+            </p>
+            <Button type="primary" size="small" className="me-2">
+              View Profile
+            </Button>
+
+            <Button type="primary" size="small">
+              Create Appointment
+            </Button>
+          </div>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
   return (
     <Layout>
       <Header style={{ background: "#fff", padding: 0 }}>
         <div className="d-flex justify-content-between align-items-center">
-          <Title level={3} >
-            Post Content
-          </Title>
+          <Title level={3}>Post Content</Title>
           <Button
             type="primary"
             shape="circle"
@@ -138,9 +164,17 @@ const PostUserContent = () => {
                 key={post.postId}
                 style={{ marginBottom: "20px" }}
                 actions={[
-                  <Badge count={post.applies.length}>
-                    <MailOutlined key="mail" />
-                  </Badge>,
+                  // <Badge count={post.applies.length}>
+                  //   <MailOutlined key="mail" />
+                  // </Badge>,
+                  <Dropdown
+                    overlay={createApplyMenu(post.applies)}
+                    trigger={["hover"]}
+                  >
+                    <Badge count={post.applies.length}>
+                      <MailOutlined key="mail" />
+                    </Badge>
+                  </Dropdown>,
                   <EditOutlined
                     key="edit"
                     onClick={() => handleGetPostById(post.postId)}

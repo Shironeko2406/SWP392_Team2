@@ -81,6 +81,31 @@ export const LoginActionAsync = (dataUser) => {
   };
 };
 
+export const LoginGGActionAsync = (idToken) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post(
+        // "https://tutorlinkproject.azurewebsites.net/api/Auth/login",
+        `${HOST_DOMAIN}/api/Auth/login-google`,
+        idToken
+      );
+      console.log(res.data.data.accessTokenToken);
+
+      const token = res.data.data.accessTokenToken;
+      setDataTextStorage(TOKEN_AUTHOR, token);
+      const user = jwtDecode(token);
+      setDataTextStorage(USER_LOGIN, JSON.stringify(user));
+
+      const action1 = getTokenAction(token);
+      const action2 = getUserLoginAction(user);
+      dispatch(action1);
+      dispatch(action2);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 export const GetUserManageActionAsync = () => {
   return async (dispatch) => {
     try {

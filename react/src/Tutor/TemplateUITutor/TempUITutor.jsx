@@ -14,17 +14,26 @@ import {
 } from "antd";
 import { UserOutlined, DownOutlined } from "@ant-design/icons";
 import "../../index.css";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { removeDataTextStorage, TOKEN_AUTHOR, USER_LOGIN } from "../../Utils/UtilFuction";
 
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 
-const items1 = ["Home", "Apply", "Review"].map((key) => ({
-  key,
-  label: `${key}`,
-}));
+const items1 = [
+  { key: "Home", label: <NavLink to="/tutor">Home</NavLink> },
+  {
+    key: "apply",
+    label: (
+      <NavLink to="/">Appointment-Schedule</NavLink>
+    ),
+  },
+  { key: "review", label: <NavLink to="/">Review</NavLink> },
+];
+
 
 const TempUITutor = () => {
+  const navigate = useNavigate()
   const handleSearch = (value) => {
     message.info(`Searching for: ${value}`);
   };
@@ -40,11 +49,19 @@ const TempUITutor = () => {
     <Menu>
       <Menu.Item
         key="profile"
-        onClick={() => message.info("Navigating to profile")}
+        onClick={() => navigate("/tutor/tutor-profile")}
       >
         Profile
       </Menu.Item>
-      <Menu.Item key="logout" style={{ color: "red" }}>
+      <Menu.Item
+        key="logout"
+        style={{ color: "red" }}
+        onClick={() => {
+          removeDataTextStorage(TOKEN_AUTHOR);
+          removeDataTextStorage(USER_LOGIN);
+          navigate("/");
+        }}
+      >
         Logout
       </Menu.Item>
     </Menu>

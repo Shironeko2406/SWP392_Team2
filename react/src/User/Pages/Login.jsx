@@ -4,8 +4,10 @@ import { Button, Checkbox, Form, Grid, Input, theme, Typography } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LoginActionAsync } from "../../Redux/Reducer/UserReducer";
+import { LoginActionAsync, LoginGGActionAsync } from "../../Redux/Reducer/UserReducer";
 import { getDataTextStorage, TOKEN_AUTHOR } from "../../Utils/UtilFuction";
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -26,15 +28,27 @@ const Login = () => {
     dispatch(actionAsync);
   };
 
+  const handleLoginSuccess = (response) => {
+    console.log('Login Success:', response.credential);
+    // Thực hiện các hành động khác với token hoặc profile của người dùng
+    const tokenGG = {
+      "idToken" : response.credential
+    }
+    const actionAsync = LoginGGActionAsync(tokenGG)
+    dispatch(actionAsync)
+  };
 
+  const handleLoginFailure = (error) => {
+    console.error('Login Failed:', error);
+  };
   useEffect(() => {
     if (getDataTextStorage(TOKEN_AUTHOR)) {
-      if (userLogin.Role === '1') {
-        navigate("/admin")
-      } else if(userLogin.Role === '4'){
-        navigate("/home")
-      } else if (userLogin.Role === '3') {
-        navigate("/tutor")
+      if (userLogin.Role === "1") {
+        navigate("/admin");
+      } else if (userLogin.Role === "4") {
+        navigate("/home");
+      } else if (userLogin.Role === "3") {
+        navigate("/tutor");
       }
     }
   }, [[tokenUser]]);
@@ -153,6 +167,12 @@ const Login = () => {
               Log in
             </Button>
             <div style={styles.footer}>
+              <div className="mb-3">
+                <GoogleLogin
+                  onSuccess={handleLoginSuccess}
+                  onFailure={handleLoginFailure}
+                />
+              </div>
               <div className="mb-3">
                 <Text style={styles.text}>Don't have an account?</Text>{" "}
                 <NavLink to="/register">Sign up now</NavLink>

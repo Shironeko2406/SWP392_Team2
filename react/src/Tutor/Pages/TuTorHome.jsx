@@ -7,6 +7,7 @@ import {
   SyncOutlined,
   CheckCircleOutlined,
   MinusCircleOutlined,
+  UserSwitchOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -21,38 +22,38 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   DeletePostByIdActionAsync,
+  GetPostListActionAsync,
   GetPostListUserLoginActionAsync,
   getPostRequestByIdActionAsync,
 } from "../../Redux/Reducer/PostRequestReducer";
+import { getDataJSONStorage, USER_LOGIN } from "../../Utils/UtilFuction";
+import { ApplyPostRequestActionAsync } from "../../Redux/Reducer/ApplyReducer";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const TuTorHome = () => {
-  const { postListUserLogin } = useSelector(
-    (state) => state.PostRequestReducer
-  );
+  const { postList } = useSelector((state) => state.PostRequestReducer);
 
   const dispatch = useDispatch();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [editPostId, setEditPostId] = useState(null);
 
-  // useEffect(() => {
-  //   dispatch(GetPostListUserLoginActionAsync());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetPostListActionAsync());
+  }, [dispatch]);
 
-  const handleDeletePostById = (id) => {
-    Modal.confirm({
-      title: "Are you sure you want to delete this post?",
-      onOk: () => dispatch(DeletePostByIdActionAsync(id)),
-    });
-  };
-
-  const handleGetPostById = (id) => {
-    setEditPostId(id);
-    dispatch(getPostRequestByIdActionAsync(id));
-    setIsEditModalVisible(true);
+  const handleApply = (postId) => {
+    const tutorId = getDataJSONStorage(USER_LOGIN);
+    const dataApply = {
+      postId: postId,
+      tutorId: tutorId.UserId,
+      status: 0,
+    };
+    const actionAsync = ApplyPostRequestActionAsync(
+      tutorId.UserId,
+      postId,
+      dataApply
+    );
+    dispatch(actionAsync);
   };
 
   const renderGender = (gender) =>
@@ -86,34 +87,21 @@ const TuTorHome = () => {
   return (
     <Layout>
       <Header style={{ background: "#fff", padding: 0 }}>
-        <div className="d-flex justify-content-between align-items-center">
-          <Title level={3}>Post Content</Title>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined />}
-            size="large"
-            style={{ margin: "0 16px" }}
-          />
-        </div>
+        <Title level={3}>Home Page</Title>
       </Header>
       <Content style={{ margin: "16px" }}>
         <div>
-          {postListUserLogin
-            .filter((post) => post.status !== 3)
+          {postList
+            .filter((post) => post.status !== 3 && post.status !== 0)
             .map((post) => (
               <Card
                 key={post.postId}
                 style={{ marginBottom: "20px" }}
                 actions={[
-                  <Badge count={post.applies.length} key="mail">
-                    <MailOutlined />
-                  </Badge>,
-                  <EditOutlined
-                    key="edit"
-                  />,
-                  <DeleteOutlined
-                    key="delete"
+                  <UserSwitchOutlined
+                    key="apply"
+                    title="Apply"
+                    onClick={() => handleApply(post.postId)}
                   />,
                 ]}
               >
