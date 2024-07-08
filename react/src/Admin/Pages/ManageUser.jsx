@@ -101,7 +101,7 @@ const ManageUser = () => {
                           <button
                             type="button"
                             data-bs-toggle="tooltip"
-                            title
+                            title= 'delete user'
                             className="btn btn-link btn-danger"
                             data-original-title="Remove"
                             onClick={handleUserDelete(user.accountId)}

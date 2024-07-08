@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { HOST_DOMAIN } from "../../Utils/UtilFuction";
+import { getDataJSONStorage, HOST_DOMAIN, USER_LOGIN } from "../../Utils/UtilFuction";
 
 const initialState = {
   tutorList: [],
+  tutorProfile: {}
 };
 
 const TutorReducer = createSlice({
@@ -12,10 +13,13 @@ const TutorReducer = createSlice({
     setTutorList: (state, action) => {
       state.tutorList = action.payload;
     },
+    setTutorProfile: (state, action)=>{
+      state.tutorProfile = action.payload
+    }
   },
 });
 
-export const { setTutorList } = TutorReducer.actions;
+export const { setTutorList, setTutorProfile } = TutorReducer.actions;
 
 export default TutorReducer.reducer;
 
@@ -41,6 +45,34 @@ export const GetTutorListManageActionAsync = () => {
       const res = await axios.get(`${HOST_DOMAIN}/Tutor/tutors`);
       const action = setTutorList(res.data);
       dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const GetTutorProfileActionAsync = () => {
+  return async (dispatch) => {
+    try {
+      const tutor = getDataJSONStorage(USER_LOGIN)
+      const res = await axios.get(`${HOST_DOMAIN}/Tutor/tutor-by-id/${tutor.UserId}`);
+
+      const action = setTutorProfile(res.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const UpdateTutorProfileByIdActionAsync = (id, dataUpdate) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(`${HOST_DOMAIN}/Tutor/update-tutor/${id}`, dataUpdate);
+      console.log(res)
+
+      const actionAsync = GetTutorProfileActionAsync();
+      dispatch(actionAsync);
     } catch (error) {
       console.error(error);
     }
