@@ -19,7 +19,7 @@ import {
   PhoneOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { RegisterTuTorActionAsync } from "../../Redux/Reducer/TutorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -33,30 +33,12 @@ const { Text, Title, Link } = Typography;
 const { Option } = Select;
 
 const RegisterTutor = () => {
+  const navigate = useNavigate()
   const { token } = useToken();
   const screens = useBreakpoint();
   const dispatch = useDispatch();
   const [avatarFile, setAvatarFile] = useState(null);
 
-
-  //   const onFinish = (values) => {
-  //     console.log("Received values of form: ", values);
-  //   };
-
-  // const onFinish = (values) => {
-  //   const formTutorRegister = {
-  //     username: values.username,
-  //     password: values.password,
-  //     fullname: values.fullname,
-  //     email: values.email,
-  //     phone: values.phone,
-  //     address: values.address,
-  //     gender: parseInt(values.gender),
-  //     roleId: parseInt(values.roleId), // Assuming roleId is fixed to 0 as per the provided data
-  //   };
-  //   const actionAsync = RegisterTuTorActionAsync(formTutorRegister);
-  //   dispatch(actionAsync);
-  // };
 
   const onFinish = async (values) => {
     if (avatarFile) {
@@ -80,7 +62,7 @@ const RegisterTutor = () => {
           gender: parseInt(values.gender),
         };
 
-        const actionAsync = RegisterTuTorActionAsync(formUserRegister);
+        const actionAsync = RegisterTuTorActionAsync(formUserRegister, navigate);
         dispatch(actionAsync);
       } catch (error) {
         console.error("Error uploading file: ", error);
