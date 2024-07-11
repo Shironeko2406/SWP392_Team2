@@ -1,6 +1,15 @@
 import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  removeDataTextStorage,
+  TOKEN_AUTHOR,
+  USER_LOGIN,
+} from "../../Utils/UtilFuction";
+import { message } from "antd";
 
 const AdminHeader = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="main-header">
       <div className="main-header-logo">
@@ -354,23 +363,25 @@ const AdminHeader = () => {
                   </li>
                   <li>
                     <div className="dropdown-divider" />
-                    <a className="dropdown-item" href="#">
+                    <NavLink
+                      className="dropdown-item"
+                      style={{ background: "none", color: "black" }}
+                      to="/admin/profile"
+                    >
                       My Profile
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      My Balance
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      Inbox
-                    </a>
+                    </NavLink>
                     <div className="dropdown-divider" />
-                    <a className="dropdown-item" href="#">
-                      Account Setting
-                    </a>
-                    <div className="dropdown-divider" />
-                    <a className="dropdown-item" href="#">
+                    <button
+                      className="dropdown-item"
+                      onClick={() => {
+                        removeDataTextStorage(TOKEN_AUTHOR);
+                        removeDataTextStorage(USER_LOGIN);
+                        navigate("/");
+                        message.success("Logout success!");
+                      }}
+                    >
                       Logout
-                    </a>
+                    </button>
                   </li>
                 </div>
               </ul>

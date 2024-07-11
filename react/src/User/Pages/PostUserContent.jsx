@@ -36,6 +36,8 @@ import {
   getDataJSONStorage,
   getDataTextStorage,
 } from "../../Utils/UtilFuction";
+import ViewTutor from "../Component/Modal/ViewTutor";
+import { ViewTutorByIdActionAsync } from "../../Redux/Reducer/TutorReducer";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -49,9 +51,9 @@ const PostUserContent = () => {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isModalViewTutorVisible, setIsModalViewTutorVisible] = useState(false);
   const [editPostId, setEditPostId] = useState(null);
-  // const user = getDataJSONStorage(USER_LOGIN);
-  // console.log(user.UserId)
+  const [viewTutorId, setViewTutorId] = useState(null);
 
   useEffect(() => {
     const actionAsync = GetPostListUserLoginActionAsync();
@@ -75,12 +77,24 @@ const PostUserContent = () => {
     setIsEditModalVisible(true);
   };
 
+  const handleViewTutorById = (id) => {
+    setViewTutorId(id);
+    const actionAsync = ViewTutorByIdActionAsync(id);
+    dispatch(actionAsync);
+    setIsModalViewTutorVisible(true);
+  };
+
   const handleCreatePost = () => {
     setIsModalVisible(true);
   };
 
   const handleModalClose = () => {
     setIsModalVisible(false);
+  };
+
+  const handleModalViewTutorClose = () => {
+    setIsModalViewTutorVisible(false);
+    setViewTutorId(null);
   };
 
   const handleEditModalClose = () => {
@@ -122,12 +136,20 @@ const PostUserContent = () => {
   const createApplyMenu = (applies) => (
     <Menu>
       {applies.map((apply, index) => (
-        <Menu.Item key={index} style={{ borderBottom: '1px solid #e0e0e0', padding: '20px' }}>
+        <Menu.Item
+          key={index}
+          style={{ borderBottom: "1px solid #e0e0e0", padding: "20px" }}
+        >
           <div>
             <p>
               <strong>Name:</strong> {apply.fullname}
             </p>
-            <Button type="primary" size="small" className="me-2">
+            <Button
+              type="primary"
+              size="small"
+              className="me-2"
+              onClick={() => handleViewTutorById(apply.tutorId)}
+            >
               View Profile
             </Button>
 
@@ -235,6 +257,11 @@ const PostUserContent = () => {
             postId={editPostId}
           />
           <CreatePost visible={isModalVisible} onClose={handleModalClose} />
+          <ViewTutor
+            visible={isModalViewTutorVisible}
+            onClose={handleModalViewTutorClose}
+            tutorId={viewTutorId}
+          ></ViewTutor>
         </div>
       </Content>
     </Layout>

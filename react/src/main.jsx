@@ -27,6 +27,8 @@ import ManageRole from "./Admin/Pages/ManageRole.jsx";
 import ManagePostDetailUser from "./Admin/Pages/ManagePostDetailUser.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import TutorProfile from "./Tutor/Pages/TutorProfile.jsx";
+import AdminProfile from "./Admin/Pages/AdminProfile.jsx";
+import ViewTutor from "./User/Component/Modal/ViewTutor.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider
@@ -39,6 +41,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="" element={<Login></Login>} />
           <Route path="register" element={<Register />} />
+          <Route path="modal" element={<ViewTutor></ViewTutor>} />
           <Route path="register-tutor" element={<RegisterTutor />} />
           {/* <Route path="home" element={<Home></Home>}>
           <Route path="" element={<PostContent></PostContent>}></Route>
@@ -69,6 +72,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               element={<ManageSubject></ManageSubject>}
             ></Route>
             <Route path="role" element={<ManageRole></ManageRole>}></Route>
+            <Route path="profile" element={<AdminProfile></AdminProfile>}></Route>
+
           </Route>
           <Route path="testForm" element={<FormTestKhac></FormTestKhac>} />
           <Route path="tutor" element={<TempUITutor></TempUITutor>}>

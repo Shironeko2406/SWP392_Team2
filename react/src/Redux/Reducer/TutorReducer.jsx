@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getDataJSONStorage, HOST_DOMAIN, USER_LOGIN } from "../../Utils/UtilFuction";
+import { message } from "antd";
 
 const initialState = {
   tutorList: [],
-  tutorProfile: {}
+  tutorProfile: {},
+  viewTutorId: {},
 };
 
 const TutorReducer = createSlice({
@@ -15,16 +17,22 @@ const TutorReducer = createSlice({
     },
     setTutorProfile: (state, action)=>{
       state.tutorProfile = action.payload
+    },
+    setViewTutorId: (state, action)=>{
+      state.viewTutorId = action.payload
+    },
+    resetViewTutorId: (state)=>{
+      state.viewTutorId = {}
     }
   },
 });
 
-export const { setTutorList, setTutorProfile } = TutorReducer.actions;
+export const { setTutorList, setTutorProfile, setViewTutorId, resetViewTutorId } = TutorReducer.actions;
 
 export default TutorReducer.reducer;
 
 //---------API call-------------
-export const RegisterTuTorActionAsync = (dataUser) => {
+export const RegisterTuTorActionAsync = (dataUser, navigate) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(`${HOST_DOMAIN}/Tutor/add-tutor`, dataUser, {
@@ -33,6 +41,8 @@ export const RegisterTuTorActionAsync = (dataUser) => {
         },
       });
       console.log(res);
+      message.success("Register tutor success");
+      navigate("/")
     } catch (error) {
       console.error(error);
     }
@@ -73,6 +83,20 @@ export const UpdateTutorProfileByIdActionAsync = (id, dataUpdate) => {
 
       const actionAsync = GetTutorProfileActionAsync();
       dispatch(actionAsync);
+      message.success("Update profile success!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const ViewTutorByIdActionAsync = (tutorId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`${HOST_DOMAIN}/Tutor/tutor-by-id/${tutorId}`);
+
+      const action = setViewTutorId(res.data);
+      dispatch(action);
     } catch (error) {
       console.error(error);
     }

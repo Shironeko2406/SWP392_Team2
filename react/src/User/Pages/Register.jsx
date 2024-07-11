@@ -19,7 +19,7 @@ import {
 } from "@ant-design/icons";
 import { RegisterUserActionAsync } from "../../Redux/Reducer/UserReducer";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { imageDB } from "../../FirebaseConfig/Config";
@@ -30,24 +30,11 @@ const { Text, Title, Link } = Typography;
 const { Option } = Select;
 
 const Register = () => {
+  const navigate = useNavigate()
   const { token } = useToken();
   const screens = useBreakpoint();
   const dispatch = useDispatch();
   const [avatarFile, setAvatarFile] = useState(null);
-
-  // const onFinish = (values) => {
-  //   const formUserRegister = {
-  //     username: values.username,
-  //     password: values.password,
-  //     fullname: values.fullname,
-  //     email: values.email,
-  //     phone: values.phone,
-  //     address: values.address,
-  //     gender: parseInt(values.gender),
-  //   };
-  //   const actionAsync = RegisterUserActionAsync(formUserRegister);
-  //   dispatch(actionAsync);
-  // };
 
   const onFinish = async (values) => {
     if (avatarFile) {
@@ -71,7 +58,7 @@ const Register = () => {
           gender: parseInt(values.gender),
         };
 
-        const actionAsync = RegisterUserActionAsync(formUserRegister);
+        const actionAsync = RegisterUserActionAsync(formUserRegister, navigate);
         dispatch(actionAsync);
       } catch (error) {
         console.error("Error uploading file: ", error);
@@ -143,7 +130,7 @@ const Register = () => {
             <path d="M4.92505 17.6H14.525V27.2001H4.92505V17.6Z" fill="white" />
           </svg>
 
-          <Title style={styles.title}>Sign up tutor</Title>
+          <Title style={styles.title}>Sign up user</Title>
           <Text style={styles.text}>
             Join us! Create an account to get started.
           </Text>

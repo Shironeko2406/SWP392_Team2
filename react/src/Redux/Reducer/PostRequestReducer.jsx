@@ -4,6 +4,7 @@ import {
   TOKEN_AUTHOR,
   getDataTextStorage,
 } from "../../Utils/UtilFuction";
+import { message } from "antd";
 
 const initialState = {
   postListUserLogin: [
@@ -97,6 +98,8 @@ export const CreatePostActionAsync = (postData) => {
       console.log(res.data);
       const action = GetPostListUserLoginActionAsync();
       dispatch(action);
+      message.success(`${res.data}`);
+
     } catch (error) {
       console.error(error);
     }
@@ -142,6 +145,7 @@ export const DeletePostByIdActionAsync = (id) => {
       console.log(res.data);
       const action = GetPostListUserLoginActionAsync();
       dispatch(action);
+      message.success(`${res.data}`);
     } catch (error) {
       console.error(error);
     }
@@ -179,6 +183,7 @@ export const updatePostByIdActionAsync = (id, dataUpdate) => {
       );
       console.log(res.data);
       const action = GetPostListUserLoginActionAsync();
+      message.success(`${res.data}`);
       dispatch(action);
     } catch (error) {
       console.error(error);
@@ -190,7 +195,6 @@ export const GetPostListPendingActionAsync = () => {
   return async (dispatch) => {
     try {
       const res = await axios.get(
-        // "https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-user-login",
         `${HOST_DOMAIN}/PostRequest/post-requests`
       );
       const filteredData = res.data.filter((post) => post.status === 0);
@@ -206,7 +210,6 @@ export const GetPostListActionAsync = () => {
   return async (dispatch) => {
     try {
       const res = await axios.get(
-        // "https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-user-login",
         `${HOST_DOMAIN}/PostRequest/post-requests`
       );
       const action = setPostList(res.data);
@@ -221,11 +224,33 @@ export const GetPostListUserByIdActionAsync = (id) => {
   return async (dispatch) => {
     try {
       const res = await axios.get(
-        // "https://tutorlinkproject.azurewebsites.net/PostRequest/post-request-user-login",
         `${HOST_DOMAIN}/PostRequest/post-request-user/${id}`
       );
       const action = setPostListUserId(res.data);
       dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const updatePostRequestStatusActionAsync = (id, status) => {
+  return async (dispatch) => {
+    try {
+      const token = getDataTextStorage(TOKEN_AUTHOR);
+      const res = await axios.put(
+        `${HOST_DOMAIN}/PostRequest/update-post-request-status/${id}`, status,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+        }
+      );
+      console.log(res.data);
+      const action = GetPostListPendingActionAsync();
+      dispatch(action);
+      message.success(`${res.data}`);
     } catch (error) {
       console.error(error);
     }

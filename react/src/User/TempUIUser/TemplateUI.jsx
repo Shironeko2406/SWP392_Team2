@@ -57,6 +57,7 @@ const TemplateUI = () => {
           removeDataTextStorage(TOKEN_AUTHOR);
           removeDataTextStorage(USER_LOGIN);
           navigate("/");
+          message.success("Logout success!");
         }}
       >
         Logout

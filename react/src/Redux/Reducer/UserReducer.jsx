@@ -15,6 +15,7 @@ const initialState = {
   userLogin: getDataJSONStorage(USER_LOGIN),
   userList: [],
   userProfile: {},
+  viewUserById: {},
 };
 
 const UserReducer = createSlice({
@@ -33,16 +34,22 @@ const UserReducer = createSlice({
     setUserProfile: (state, action) => {
       state.userProfile = action.payload;
     },
+    setViewUserById: (state, action)=>{
+      state.viewUserById = action.payload
+    },
+    resetViewUserById: (state)=>{
+      state.viewUserById = {}
+    }
   },
 });
 
-export const { getTokenAction, getUserLoginAction, setUserListAction, setUserProfile } =
+export const { getTokenAction, getUserLoginAction, setUserListAction, setUserProfile, setViewUserById, resetViewUserById } =
   UserReducer.actions;
 
 export default UserReducer.reducer;
 
 //-----------API Call-------------
-export const RegisterUserActionAsync = (dataUser) => {
+export const RegisterUserActionAsync = (dataUser, navigate) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(
@@ -50,6 +57,8 @@ export const RegisterUserActionAsync = (dataUser) => {
         dataUser
       );
       console.log(res);
+      message.success("Create success user");
+      navigate("/")
     } catch (error) {
       console.error(error);
     }
@@ -60,7 +69,6 @@ export const LoginActionAsync = (dataUser) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(
-        // "https://tutorlinkproject.azurewebsites.net/api/Auth/login",
         `${HOST_DOMAIN}/api/Auth/login`,
         dataUser
       );
@@ -75,6 +83,7 @@ export const LoginActionAsync = (dataUser) => {
       const action2 = getUserLoginAction(user);
       dispatch(action1);
       dispatch(action2);
+      message.success("Login success");
     } catch (error) {
       console.error(error);
     }
@@ -100,6 +109,7 @@ export const LoginGGActionAsync = (idToken) => {
       const action2 = getUserLoginAction(user);
       dispatch(action1);
       dispatch(action2);
+      message.success("Login success");
     } catch (error) {
       console.error(error);
     }
@@ -126,7 +136,7 @@ export const DeleteUserByIdActionAsync = (id) => {
       console.log(res.data);
       const action = GetUserManageActionAsync();
       dispatch(action);
-      message.success("Success!");
+      message.success(`${res.data}`);
     } catch (error) {
       console.error(error);
     }
@@ -154,6 +164,19 @@ export const UpdateUserProfileByIdActionAsync = (id, dataUpdate) => {
       console.log(res)
 
       const action = GetUserProfileActionAsync();
+      dispatch(action);
+      message.success(`${res.data}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const GetViewUserByIdActionAsync = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`${HOST_DOMAIN}/Account/get/${id}`);
+      const action = setViewUserById(res.data);
       dispatch(action);
     } catch (error) {
       console.error(error);
