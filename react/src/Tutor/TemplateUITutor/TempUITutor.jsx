@@ -23,9 +23,9 @@ const { Search } = Input;
 const items1 = [
   { key: "Home", label: <NavLink to="/tutor">Home</NavLink> },
   {
-    key: "apply",
+    key: "appointment-schedule",
     label: (
-      <NavLink to="/">Appointment-Schedule</NavLink>
+      <NavLink to="/tutor/appointment-schedule">Appointment-Schedule</NavLink>
     ),
   },
   { key: "review", label: <NavLink to="/">Review</NavLink> },
@@ -91,7 +91,7 @@ const TempUITutor = () => {
             alignItems: "center",
           }}
         >
-          <div className="logo">
+          <div className="logo-user">
             <img
               src="https://c8.alamy.com/comp/2E2PJKR/vector-logo-of-a-tutor-educational-courses-2E2PJKR.jpg"
               alt="Logo"

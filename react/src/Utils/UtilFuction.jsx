@@ -1,8 +1,8 @@
 const TOKEN_AUTHOR = "accessToken";
 const USER_LOGIN = "userLogin";
 const HOST_DOMAIN =
-  "https://localhost:7194";
-  // "http://ec2-18-141-87-114.ap-southeast-1.compute.amazonaws.com";
+  // "https://localhost:7194";
+  "http://ec2-18-141-87-114.ap-southeast-1.compute.amazonaws.com";
 
 //  Cookie and local storage interaction functions
 

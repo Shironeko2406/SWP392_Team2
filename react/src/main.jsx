@@ -29,6 +29,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import TutorProfile from "./Tutor/Pages/TutorProfile.jsx";
 import AdminProfile from "./Admin/Pages/AdminProfile.jsx";
 import ViewTutor from "./User/Component/Modal/ViewTutor.jsx";
+import CreateAppointment from "./User/Pages/CreateAppointment.jsx";
+import AppointmentScheduleTutor from "./Tutor/Pages/AppointmentScheduleTutor.jsx";
+import ManageAppointment from "./Admin/Pages/ManageAppointment.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider
@@ -53,6 +56,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Route> */}
           <Route path="admin" element={<TempAdmin></TempAdmin>}>
             <Route path="" element={<ManageUser></ManageUser>}></Route>
+            <Route path="appointment" element={<ManageAppointment></ManageAppointment>}></Route>
             <Route path="tutor" element={<ManageTutor></ManageTutor>}></Route>
             <Route
               path="post-by-user"
@@ -72,15 +76,28 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               element={<ManageSubject></ManageSubject>}
             ></Route>
             <Route path="role" element={<ManageRole></ManageRole>}></Route>
-            <Route path="profile" element={<AdminProfile></AdminProfile>}></Route>
-
+            <Route
+              path="profile"
+              element={<AdminProfile></AdminProfile>}
+            ></Route>
           </Route>
           <Route path="testForm" element={<FormTestKhac></FormTestKhac>} />
           <Route path="tutor" element={<TempUITutor></TempUITutor>}>
             <Route path="" element={<TuTorHome></TuTorHome>}></Route>
-            <Route path="tutor-profile" element={<TutorProfile></TutorProfile>}></Route>
+            <Route
+              path="tutor-profile"
+              element={<TutorProfile></TutorProfile>}
+            ></Route>
+            <Route
+              path="appointment-schedule"
+              element={<AppointmentScheduleTutor></AppointmentScheduleTutor>}
+            ></Route>
           </Route>
           <Route path="home" element={<TemplateUI></TemplateUI>}>
+            <Route
+              path="create-appointment"
+              element={<CreateAppointment></CreateAppointment>}
+            ></Route>
             <Route
               path=""
               element={<PostUserContent></PostUserContent>}

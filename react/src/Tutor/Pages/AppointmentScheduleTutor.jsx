@@ -10,27 +10,44 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Layout, Typography, Card, Button, Modal, Tag } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAppointmentListByUserIdActionAsync } from "../../Redux/Reducer/AppointmentReducer";
+import {
+  ConfirmAppointmentActionAsync,
+  GetAppointmentListByTutorIdActionAsync,
+} from "../../Redux/Reducer/AppointmentReducer";
 import { getDataJSONStorage, USER_LOGIN } from "../../Utils/UtilFuction";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
-const AppointmentSchedule = () => {
-  const { appointmentListByUserId } = useSelector(
+const AppointmentScheduleTutor = () => {
+  const { appointmentListByTutorId } = useSelector(
     (state) => state.AppointmentReducer
   );
-  console.log(appointmentListByUserId);
+  console.log(appointmentListByTutorId);
   const dispatch = useDispatch();
-  const user = getDataJSONStorage(USER_LOGIN);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   useEffect(() => {
-    const actionAsync = GetAppointmentListByUserIdActionAsync(user.UserId);
+    const actionAsync = GetAppointmentListByTutorIdActionAsync();
     dispatch(actionAsync);
   }, []);
+
+  const handleConfirmAppointment = (tutorId, appointmentId, isConfirmed) => {
+    Modal.confirm({
+      title: "Are you sure?",
+      onOk: () => {
+        const actionAsync = ConfirmAppointmentActionAsync(
+          tutorId,
+          appointmentId,
+          isConfirmed
+        );
+        dispatch(actionAsync);
+      },
+    });
+    console.log(tutorId, appointmentId, isConfirmed);
+  };
 
   const handleCreateAppointment = () => {
     setIsModalVisible(true);
@@ -75,23 +92,40 @@ const AppointmentSchedule = () => {
         <Title level={3}>Appointment Schedule</Title>
       </Header>
       <Content style={{ margin: "16px" }}>
-        {appointmentListByUserId.map((appointment) => (
+        {appointmentListByTutorId.map((appointment) => (
           <Card
-            key={appointment.id}
+            key={appointment.appointmentId}
             style={{ marginBottom: "20px" }}
             actions={[
               <EditOutlined
-                key="edit"
-                onClick={() => setIsEditModalVisible(true)}
+                key="confirm"
+                onClick={() =>
+                  handleConfirmAppointment(
+                    appointment.tutorId,
+                    appointment.appointmentId,
+                    true
+                  )
+                }
               />,
-              <DeleteOutlined key="delete" onClick={() => {}} />,
+              <CloseCircleOutlined
+                key="cancel"
+                onClick={() =>
+                  handleConfirmAppointment(
+                    appointment.tutorId,
+                    appointment.appointmentId,
+                    false
+                  )
+                }
+              />,
             ]}
           >
             <Card.Meta
-              avatar={<Avatar src={appointment.tutorAvatarUrl} size="large" />}
+              avatar={
+                <Avatar src={appointment.accountAvatarUrl} size="large" />
+              }
               title={
                 <div className="d-flex align-items-center">
-                  <strong>{appointment.tutorUsername}</strong>
+                  <strong>{appointment.accountUsername}</strong>
                   <div style={{ marginLeft: "8px" }}>
                     {renderStatusTag(appointment.status)}
                   </div>
@@ -132,4 +166,4 @@ const AppointmentSchedule = () => {
   );
 };
 
-export default AppointmentSchedule;
+export default AppointmentScheduleTutor;
