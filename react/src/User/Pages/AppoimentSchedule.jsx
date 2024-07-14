@@ -79,13 +79,13 @@ const AppointmentSchedule = () => {
           <Card
             key={appointment.id}
             style={{ marginBottom: "20px" }}
-            actions={[
-              <EditOutlined
-                key="edit"
-                onClick={() => setIsEditModalVisible(true)}
-              />,
-              <DeleteOutlined key="delete" onClick={() => {}} />,
-            ]}
+            // actions={[
+            //   <EditOutlined
+            //     key="edit"
+            //     onClick={() => setIsEditModalVisible(true)}
+            //   />,
+            //   <DeleteOutlined key="delete" onClick={() => {}} />,
+            // ]}
           >
             <Card.Meta
               avatar={<Avatar src={appointment.tutorAvatarUrl} size="large" />}

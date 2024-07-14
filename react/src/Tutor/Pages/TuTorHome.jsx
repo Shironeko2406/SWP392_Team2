@@ -108,14 +108,14 @@ const TuTorHome = () => {
                 <Card.Meta
                   avatar={
                     <Avatar
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNVRKFKJYhupjDCThl0VkE0EdEbhoW1-U7hg&s"
+                      src={post.avatarUrl}
                       alt="User Avatar"
                       size="large"
                     />
                   }
                   title={
                     <div className="d-flex align-items-center">
-                      <strong>Nahida</strong>
+                      <strong>{post.createdByUsername}</strong>
                       <div style={{ marginLeft: "8px" }}>
                         {renderStatusTag(post.status)}
                       </div>

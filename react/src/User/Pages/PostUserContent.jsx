@@ -259,7 +259,7 @@ const PostUserContent = () => {
                 <Card.Meta
                   avatar={
                     <Avatar
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNVRKFKJYhupjDCThl0VkE0EdEbhoW1-U7hg&s"
+                      src={post.avatarUrl}
                       alt="User Avatar"
                       size="large"
                     />

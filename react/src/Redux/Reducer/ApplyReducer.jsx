@@ -34,6 +34,11 @@ export const ApplyPostRequestActionAsync = (tutorId, postId, dataApply) => {
       const actionAsync = GetPostListActionAsync();
       dispatch(actionAsync);
     } catch (error) {
+      if (error.response && error.response.status === 500) {
+        message.error("Post has been applied by you");
+      } else {
+        message.error("An error occurred");
+      }
       console.error(error);
     }
   };
