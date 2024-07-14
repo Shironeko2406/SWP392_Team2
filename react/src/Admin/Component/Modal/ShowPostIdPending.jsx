@@ -67,7 +67,7 @@ const ShowPostIdPending = ({ visible, onClose, postId }) => {
       >
         <Card style={{ marginBottom: "20px" }}>
           <Card.Meta
-            avatar={<Avatar icon={<UserOutlined />} />}
+            avatar={<Avatar src={postById.avatarUrl} />}
             title={postById.createdByUsername}
             description={new Date(postById.createdDate).toLocaleString()}
           />
