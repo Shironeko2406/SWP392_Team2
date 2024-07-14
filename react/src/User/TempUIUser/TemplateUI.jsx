@@ -57,7 +57,7 @@ const TemplateUI = () => {
           removeDataTextStorage(TOKEN_AUTHOR);
           removeDataTextStorage(USER_LOGIN);
           navigate("/");
-          message.success("Logout success!");
+          message.success("Logout success!"); 
         }}
       >
         Logout
@@ -88,7 +88,7 @@ const TemplateUI = () => {
             alignItems: "center",
           }}
         >
-          <div className="logo">
+          <div className="logo-user">
             <img
               src="https://c8.alamy.com/comp/2E2PJKR/vector-logo-of-a-tutor-educational-courses-2E2PJKR.jpg"
               alt="Logo"

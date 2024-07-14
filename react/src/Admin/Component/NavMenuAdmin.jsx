@@ -96,20 +96,15 @@ const NavMenuAdmin = () => {
             <li className="nav-item">
               <a data-bs-toggle="collapse" href="#apply">
                 <i className="fas fa-file-signature"></i>
-                <p>Apply</p>
+                <p>Appointment</p>
                 <span className="caret" />
               </a>
               <div className="collapse" id="apply">
                 <ul className="nav nav-collapse">
                   <li>
-                    <a href="../forms/forms.html">
-                      <span className="sub-item">Apply 1</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="../forms/forms.html">
-                      <span className="sub-item">Apply 2</span>
-                    </a>
+                    <NavLink to="/admin/appointment">
+                      <span className="sub-item">Show Appointment</span>
+                    </NavLink>
                   </li>
                 </ul>
               </div>

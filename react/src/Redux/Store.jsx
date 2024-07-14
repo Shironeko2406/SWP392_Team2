@@ -6,6 +6,7 @@ import RoleReducer from "./Reducer/RoleReducer";
 import SubjectReducer from "./Reducer/SubjectReducer";
 import ApplyReducer from "./Reducer/ApplyReducer";
 import QualificationReducer from "./Reducer/QualificationReducer";
+import AppointmentReducer from "./Reducer/AppointmentReducer";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     SubjectReducer,
     ApplyReducer,
     QualificationReducer,
+    AppointmentReducer,
   },
 });

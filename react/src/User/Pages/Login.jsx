@@ -115,8 +115,7 @@ const Login = () => {
 
           <Title style={styles.title}>Sign in</Title>
           <Text style={styles.text}>
-            Welcome back to AntBlocks UI! Please enter your details below to
-            sign in.
+            Welcome to tutor flatform application
           </Text>
         </div>
         <Form

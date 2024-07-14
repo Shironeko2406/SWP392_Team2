@@ -38,12 +38,17 @@ import {
 } from "../../Utils/UtilFuction";
 import ViewTutor from "../Component/Modal/ViewTutor";
 import { ViewTutorByIdActionAsync } from "../../Redux/Reducer/TutorReducer";
+import { generateToken, messaging } from "../../FirebaseConfig/Config";
+import { onMessage } from "firebase/messaging";
+import { setDataAppointment } from "../../Redux/Reducer/AppointmentReducer";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const PostUserContent = () => {
   const { tokenUser } = useSelector((state) => state.UserReducer);
+  const navigate = useNavigate()
   const { postListUserLogin } = useSelector(
     (state) => state.PostRequestReducer
   );
@@ -59,6 +64,33 @@ const PostUserContent = () => {
     const actionAsync = GetPostListUserLoginActionAsync();
     dispatch(actionAsync);
   }, [dispatch]);
+
+  useEffect(() => {
+    // Yêu cầu quyền thông báo
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+        generateToken();
+      } else {
+        console.log("Unable to get permission to notify.");
+      }
+    });
+
+    // Lắng nghe các thông báo
+    onMessage(messaging, (payload) => {
+      console.log("Message received. ", payload);
+      // Tùy chỉnh thông báo tại đây
+      const notificationTitle = payload.notification.title;
+      const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.image,
+      };
+
+      if (Notification.permission === "granted") {
+        new Notification(notificationTitle, notificationOptions);
+      }
+    });
+  }, []);
 
   const handleDeletePostById = (id) => {
     Modal.confirm({
@@ -153,7 +185,13 @@ const PostUserContent = () => {
               View Profile
             </Button>
 
-            <Button type="primary" size="small">
+            <Button
+              type="primary"
+              size="small"
+              onClick={() =>
+                setDataBookAppointment(apply.tutorId, apply.postId, apply.fullname)
+              }
+            >
               Create Appointment
             </Button>
           </div>
@@ -161,6 +199,17 @@ const PostUserContent = () => {
       ))}
     </Menu>
   );
+
+  const setDataBookAppointment = (tutorId, postId, fullname) => {
+    const data = {
+      tutorId: tutorId,
+      postId: postId,
+      fullname: fullname,
+    };
+    const action = setDataAppointment(data);
+    dispatch(action);
+    navigate("/home/create-appointment")
+  };
 
   return (
     <Layout>
