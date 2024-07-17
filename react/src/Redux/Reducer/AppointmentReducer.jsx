@@ -54,7 +54,13 @@ export const CreateAppointmentActionAsync = (form, navigate) => {
       message.success(`${res.data.message}`);
       navigate("/home");
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 400) {
+        message.error(
+          "You cannot set a calendar smaller than the current date"
+        );
+      } else {
+        message.error("An error occurred. Please try again.");
+      }
     }
   };
 };

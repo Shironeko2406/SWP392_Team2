@@ -1,8 +1,8 @@
 const TOKEN_AUTHOR = "accessToken";
 const USER_LOGIN = "userLogin";
 const HOST_DOMAIN =
-  "https://localhost:7194";
-  // "https://mytutorlink.arisavinh.dev";
+  // "https://localhost:7194";
+  "https://mytutorlink.arisavinh.dev";
 
 //  Cookie and local storage interaction functions
 
