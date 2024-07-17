@@ -8,7 +8,7 @@ import {
   PlusOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
-import { Avatar, Layout, Typography, Card, Button, Modal, Tag } from "antd";
+import { Avatar, Layout, Typography, Card, Button, Modal, Tag, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ConfirmAppointmentActionAsync,
@@ -17,6 +17,7 @@ import {
 import { getDataJSONStorage, USER_LOGIN } from "../../Utils/UtilFuction";
 
 const { Header, Content } = Layout;
+const { Option } = Select;
 const { Title } = Typography;
 
 const AppointmentScheduleTutor = () => {
@@ -28,6 +29,8 @@ const AppointmentScheduleTutor = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [sortOption, setSortOption] = useState(null);
+
 
   useEffect(() => {
     const actionAsync = GetAppointmentListByTutorIdActionAsync();
@@ -47,6 +50,10 @@ const AppointmentScheduleTutor = () => {
       },
     });
     console.log(tutorId, appointmentId, isConfirmed);
+  };
+
+  const handleSortChange = (value) => {
+    setSortOption(value);
   };
 
   const handleCreateAppointment = () => {
@@ -86,13 +93,44 @@ const AppointmentScheduleTutor = () => {
     }
   };
 
+  const sortedAppointments = [...appointmentListByTutorId].sort((a, b) => {
+    switch (sortOption) {
+      case "nearest":
+        return new Date(a.appointmentTime) - new Date(b.appointmentTime);
+      case "furthest":
+        return new Date(b.appointmentTime) - new Date(a.appointmentTime);
+      case "pending":
+        return a.status === 0 ? -1 : b.status === 0 ? 1 : 0;
+      case "approve":
+        return a.status === 1 ? -1 : b.status === 1 ? 1 : 0;
+      case "cancel":
+        return a.status === 2 ? -1 : b.status === 2 ? 1 : 0;
+      default:
+        return 0;
+    }
+  });
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header style={{ background: "#fff", padding: 0 }}>
-        <Title level={3}>Appointment Schedule</Title>
+      <Header style={{ background: '#fff', padding: 0 }}>
+        <div className="d-flex justify-content-between align-items-center">
+          <h3>Appointment Schedule</h3>
+          <Select
+            defaultValue="Sort by"
+            style={{ width: 200, marginLeft: 16 }}
+            onChange={handleSortChange}
+          >
+            <Option value="all">Show all</Option>
+            <Option value="nearest">Nearest appointment</Option>
+            <Option value="furthest">Furthest appointment</Option>
+            <Option value="pending">Appointment is pending</Option>
+            <Option value="approve">Appointment was approve</Option>
+            <Option value="cancel">Appointment was cancel</Option>
+          </Select>
+        </div>
       </Header>
       <Content style={{ margin: "16px" }}>
-        {appointmentListByTutorId.map((appointment) => (
+        {sortedAppointments.map((appointment) => (
           <Card
             key={appointment.appointmentId}
             style={{ marginBottom: "20px" }}

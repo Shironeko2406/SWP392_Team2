@@ -64,15 +64,6 @@ const Register = () => {
         console.error("Error uploading file: ", error);
       }
     }
-    // else {
-    //   const formUserRegister = {
-    //     username: values.username,
-    //     password: values.password,
-    //     email: values.email,
-    //     avatarURL: null, // hoặc một giá trị mặc định
-    //   };
-    //   console.log(formUserRegister)
-    // }
   };
 
   const styles = {

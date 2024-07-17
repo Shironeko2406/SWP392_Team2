@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -14,7 +14,7 @@ import {
 } from "antd";
 import { UserOutlined, DownOutlined } from "@ant-design/icons";
 import "../../index.css";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { TOKEN_AUTHOR, USER_LOGIN, removeDataTextStorage } from "../../Utils/UtilFuction";
 
 const { Header, Content, Footer } = Layout;
@@ -33,15 +33,25 @@ const items1 = [
 
 const TemplateUI = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSearch = (value) => {
-    message.info(`Searching for: ${value}`);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState(null);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleFilter = ({ key }) => {
+    setFilterStatus(key === "all" ? null : key);
   };
 
   const menu = (
-    <Menu>
-      <Menu.Item key="pending">Awaiting review</Menu.Item>
-      <Menu.Item key="public">Has been made public</Menu.Item>
+    <Menu onClick={handleFilter}>
+      <Menu.Item key="all">Show all</Menu.Item>
+      <Menu.Item key="0">Post is pending</Menu.Item>
+      <Menu.Item key="1">Post was public</Menu.Item>
+      <Menu.Item key="2">Post was not approve</Menu.Item>
     </Menu>
   );
 
@@ -64,6 +74,18 @@ const TemplateUI = () => {
       </Menu.Item>
     </Menu>
   );
+
+  const generateBreadcrumbItems = (path) => {
+    const pathNames = path.split("/").filter((i) => i);
+    return pathNames.map((name, index) => {
+      const routeTo = `/${pathNames.slice(0, index + 1).join("/")}`;
+      return (
+        <Breadcrumb.Item key={routeTo}>
+          <NavLink to={routeTo}>{name}</NavLink>
+        </Breadcrumb.Item>
+      );
+    });
+  };
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -107,9 +129,10 @@ const TemplateUI = () => {
             }}
           />
           <div className="header-right d-flex align-items-center">
-            <Search
+          <Search
               placeholder="Search..."
-              onSearch={handleSearch}
+              value={searchTerm}
+              onChange={handleSearch}
               style={{ width: 200, marginRight: "1rem" }}
             />
             <Dropdown overlay={menu} className="me-2">
@@ -140,9 +163,7 @@ const TemplateUI = () => {
             margin: "16px 0",
           }}
         >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
+          {generateBreadcrumbItems(location.pathname)}
         </Breadcrumb>
         <Layout
           style={{
@@ -157,7 +178,7 @@ const TemplateUI = () => {
               minHeight: 450,
             }}
           >
-            <Outlet></Outlet>
+            <Outlet context={[searchTerm, filterStatus]} />
           </Content>
         </Layout>
       </Content>
