@@ -14,7 +14,7 @@ const ShowPostIdPending = ({ visible, onClose, postId }) => {
   const handleApprove = () => {
     const status = 1;
     Modal.confirm({
-      title: "Are you sure approve this this post?",
+      title: "Are you sure approve this post?",
       onOk: () => {
         const actionAsync = updatePostRequestStatusActionAsync(postId, status);
         dispatch(actionAsync);
@@ -24,8 +24,15 @@ const ShowPostIdPending = ({ visible, onClose, postId }) => {
   };
 
   const handleDelete = () => {
-    console.log("Post deleted");
-    onClose();
+    const status = 2;
+    Modal.confirm({
+      title: "Are you sure unable this post?",
+      onOk: () => {
+        const actionAsync = updatePostRequestStatusActionAsync(postId, status);
+        dispatch(actionAsync);
+        onClose();
+      },
+    });
   };
 
   const handleCancel = () => {
@@ -56,8 +63,8 @@ const ShowPostIdPending = ({ visible, onClose, postId }) => {
           <Button key="approve" type="primary" onClick={handleApprove}>
             Approve Post
           </Button>,
-          <Button key="delete" danger onClick={handleDelete}>
-            Delete Post
+          <Button key="unable" danger onClick={handleDelete}>
+            Unable
           </Button>,
           <Button key="cancel" onClick={handleCancel}>
             Cancel

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -14,8 +14,12 @@ import {
 } from "antd";
 import { UserOutlined, DownOutlined } from "@ant-design/icons";
 import "../../index.css";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { removeDataTextStorage, TOKEN_AUTHOR, USER_LOGIN } from "../../Utils/UtilFuction";
+import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import {
+  removeDataTextStorage,
+  TOKEN_AUTHOR,
+  USER_LOGIN,
+} from "../../Utils/UtilFuction";
 
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
@@ -31,26 +35,30 @@ const items1 = [
   { key: "review", label: <NavLink to="/">Review</NavLink> },
 ];
 
-
 const TempUITutor = () => {
-  const navigate = useNavigate()
-  const handleSearch = (value) => {
-    message.info(`Searching for: ${value}`);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortCreatedDate, setSortCreatedDate] = useState(null);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleFilter = ({ key }) => {
+    setSortCreatedDate(key)
   };
 
   const menu = (
-    <Menu>
-      <Menu.Item key="wait">Awaiting review</Menu.Item>
-      <Menu.Item key="public">Has been made public</Menu.Item>
+    <Menu onClick={handleFilter}>
+      <Menu.Item key="newest">Sort by Newest</Menu.Item>
+      <Menu.Item key="oldest">Sort by Oldest</Menu.Item>
     </Menu>
   );
-
+  
   const userMenu = (
     <Menu>
-      <Menu.Item
-        key="profile"
-        onClick={() => navigate("/tutor/tutor-profile")}
-      >
+      <Menu.Item key="profile" onClick={() => navigate("/tutor/tutor-profile")}>
         Profile
       </Menu.Item>
       <Menu.Item
@@ -67,6 +75,18 @@ const TempUITutor = () => {
       </Menu.Item>
     </Menu>
   );
+
+  const generateBreadcrumbItems = (path) => {
+    const pathNames = path.split("/").filter((i) => i);
+    return pathNames.map((name, index) => {
+      const routeTo = `/${pathNames.slice(0, index + 1).join("/")}`;
+      return (
+        <Breadcrumb.Item key={routeTo}>
+          <NavLink to={routeTo}>{name}</NavLink>
+        </Breadcrumb.Item>
+      );
+    });
+  };
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -112,7 +132,8 @@ const TempUITutor = () => {
           <div className="header-right d-flex align-items-center">
             <Search
               placeholder="Search..."
-              onSearch={handleSearch}
+              value={searchTerm}
+              onChange={handleSearch}
               style={{ width: 200, marginRight: "1rem" }}
             />
             <Dropdown overlay={menu} className="me-2">
@@ -143,9 +164,7 @@ const TempUITutor = () => {
             margin: "16px 0",
           }}
         >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
+          {generateBreadcrumbItems(location.pathname)}
         </Breadcrumb>
         <Layout
           style={{
@@ -160,7 +179,7 @@ const TempUITutor = () => {
               minHeight: 450,
             }}
           >
-            <Outlet></Outlet>
+            <Outlet context={[searchTerm, sortCreatedDate]}></Outlet>
           </Content>
         </Layout>
       </Content>

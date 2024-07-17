@@ -46,7 +46,6 @@ export const CreateAppointmentActionAsync = (form, navigate) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(
-        // "https://tutorlinkproject.azurewebsites.net/PostRequest/add-post-request",
         `${HOST_DOMAIN}/AppointmentFeedback/book-appointment`,
         form
       );

@@ -28,6 +28,7 @@ import {
 } from "../../Redux/Reducer/PostRequestReducer";
 import { getDataJSONStorage, USER_LOGIN } from "../../Utils/UtilFuction";
 import { ApplyPostRequestActionAsync } from "../../Redux/Reducer/ApplyReducer";
+import { useOutletContext } from "react-router-dom";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -35,7 +36,22 @@ const { Title } = Typography;
 const TuTorHome = () => {
   const { postList } = useSelector((state) => state.PostRequestReducer);
 
+  const [searchTerm, sortCreatedDate] = useOutletContext();
+
+
   const dispatch = useDispatch();
+
+  const filteredPosts = postList
+  .filter((post) => post.description.includes(searchTerm))
+  .sort((a, b) => {
+    if (sortCreatedDate === "newest") {
+      return new Date(b.createdDate) - new Date(a.createdDate);
+    } else if (sortCreatedDate === "oldest") {
+      return new Date(a.createdDate) - new Date(b.createdDate);
+    }
+    return 0; // No sorting if sortOrder is null
+  });
+
 
   useEffect(() => {
     dispatch(GetPostListActionAsync());
@@ -91,8 +107,8 @@ const TuTorHome = () => {
       </Header>
       <Content style={{ margin: "16px" }}>
         <div>
-          {postList
-            .filter((post) => post.status !== 3 && post.status !== 0)
+          {filteredPosts
+            .filter((post) => post.status !== 3 && post.status !== 0 && post.status !== 2)
             .map((post) => (
               <Card
                 key={post.postId}
